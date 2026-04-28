@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>真·岸 True Shore · 李旭琪作品集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F5F1EB;
+  --ink: #1C1917;
+  --ink-soft: #44403C;
+  --ink-muted: #78716C;
+  --accent: #3B6E8A;
+  --accent-light: #E4EFF5;
+  --accent-mid: #5A9CB8;
+  --amber: #C17A2E;
+  --border: #E2DDD6;
+  --card-bg: #FDFCFA;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 300;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 6rem;
+}
+
+#ink-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.paper-texture {
+  position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(59,110,138,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(90,156,184,0.05) 0%, transparent 55%);
+}
+
+.hero-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, transparent, rgba(245,241,235,0.95));
+  pointer-events: none;
+  z-index: 3;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 4;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 3rem;
+  width: 100%;
+  opacity: 0;
+  animation: fadeUp 1s 0.5s forwards;
+}
+
+.hero-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--ink-muted);
+  text-decoration: none;
+  margin-bottom: 2rem;
+  transition: color 0.2s;
+}
+.hero-back:hover { color: var(--accent); }
+
+.hero-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--accent-mid);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.hero-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 0.8rem;
+}
+
+.hero-title span { color: var(--accent); }
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  max-width: 520px;
+}
+
+/* ── SCROLL HINT ── */
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--ink-muted);
+  animation: bounce 2s infinite;
+}
+
+.scroll-hint::after {
+  content: '';
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--ink-muted), transparent);
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; width: 100%;
+  padding: 1.2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  z-index: 100;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+nav.scrolled {
+  background: rgba(245,241,235,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.9rem; font-weight: 600;
+  color: var(--ink); letter-spacing: 0.05em;
+  text-decoration: none;
+}
+
+.nav-tag {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-muted);
+}
+
+/* ── CONTENT ── */
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 6rem 3rem;
+}
+
+.content-block {
+  margin-bottom: 5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s, transform 0.7s;
+}
+.content-block.visible { opacity: 1; transform: none; }
+
+.block-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  color: var(--accent-mid);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.block-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: var(--border); max-width: 160px;
+}
+
+.block-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.6rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 1.2rem;
+  line-height: 1.4;
+}
+
+.block-body p {
+  font-size: 0.92rem; color: var(--ink-soft);
+  margin-bottom: 1rem; max-width: 640px;
+}
+
+/* ── TABLE ── */
+.insight-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+}
+.insight-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  background: var(--ink);
+  color: var(--cream);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+}
+.insight-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+.insight-table tr:nth-child(even) td { background: var(--card-bg); }
+
+/* ── LEVEL CARDS ── */
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 1.5rem;
+}
+
+.level-card {
+  background: var(--card-bg);
+  padding: 1.6rem;
+}
+
+.level-num {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 2rem; font-weight: 700;
+  color: var(--accent);
+  opacity: 0.3;
+  margin-bottom: 0.5rem;
+}
+
+.level-name {
+  font-size: 0.82rem; font-weight: 500;
+  color: var(--ink); margin-bottom: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.level-body {
+  font-size: 0.8rem; color: var(--ink-muted);
+  line-height: 1.7;
+}
+
+/* ── QUOTE ── */
+.pull-quote {
+  margin: 3rem 0;
+  padding: 2rem 2.5rem;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-light);
+}
+.pull-quote p {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem; color: var(--ink);
+  line-height: 1.7; font-weight: 400;
+}
+
+/* ── FLOW ── */
+.flow-steps {
+  display: flex; flex-direction: column; gap: 0;
+  margin-top: 1.5rem;
+}
+.flow-step {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 1.2rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: start;
+}
+.flow-step:last-child { border-bottom: none; }
+.flow-num {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--accent); opacity: 0.5;
+  padding-top: 0.1rem;
+}
+.flow-text h5 {
+  font-size: 0.88rem; font-weight: 500;
+  color: var(--ink); margin-bottom: 0.35rem;
+}
+.flow-text p { font-size: 0.82rem; color: var(--ink-muted); }
+
+/* ── FOOTER ── */
+.page-footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem;
+  max-width: 900px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-back {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  color: var(--ink-muted); font-size: 0.78rem;
+  letter-spacing: 0.1em; text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-back:hover { color: var(--accent); }
+.footer-copy { font-size: 0.72rem; color: var(--ink-muted); letter-spacing: 0.08em; }
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(20px); }
+  to   { opacity:1; transform: none; }
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .hero-content { padding: 0 1.5rem; }
+  .content { padding: 4rem 1.5rem; }
+  .level-grid { grid-template-columns: 1fr; }
+  .page-footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">← 李旭琪 · 作品集</a>
+  <span class="nav-tag">01 · 真·岸 True Shore</span>
+</nav>
+
+<div class="hero">
+  <canvas id="ink-canvas"></canvas>
+  <div class="paper-texture"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Project 01 · 白皮书 v2.0</div>
+    <h1 class="hero-title">真·岸<br><span>True Shore</span></h1>
+    <p class="hero-sub">基于人工智能心理学的高敏人群（HSP）数字化干预系统设计</p>
+  </div>
+
+  <div class="scroll-hint">向下阅读</div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- BACKGROUND -->
+  <div class="content-block">
+    <div class="block-label">立项背景</div>
+    <h2 class="block-title">当AI遇上高敏感——<br>一个被忽视的15%</h2>
+    <div class="block-body">
+      <p>高敏感人群（Highly Sensitive Person，HSP）约占总人口的15-20%。这个群体的核心特征不是"脆弱"，而是具备更深的<strong>认知加工深度（Depth of Processing）</strong>——他们对信息的处理更深入，对细节的感知更敏锐，对他人的情绪更共情。</p>
+      <p>在高信息密度的现代职场中，HSP面临三个系统性困境，但这三点在企业HR视野中几乎是盲区：</p>
+    </div>
+
+    <table class="insight-table">
+      <thead>
+        <tr>
+          <th>困境</th>
+          <th>心理学机制</th>
+          <th>在职场中的表现</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>内感预测误差过载</strong></td>
+          <td>大脑持续对环境细节过度预测，现实偏差产生更强烈的焦虑唤醒</td>
+          <td>面对不确定性的绩效压力时出现严重焦虑，甚至肢体症状</td>
+        </tr>
+        <tr>
+          <td><strong>防御性关机</strong></td>
+          <td>过量社交信号触发"冻结反应"，启动解离或社交退缩</td>
+          <td>高强度会议后需要长时间独处恢复，被误认为"不合群"</td>
+        </tr>
+        <tr>
+          <td><strong>过度归因与逻辑死锁</strong></td>
+          <td>习惯将外部压力内化为"自我缺陷"，陷入反刍循环</td>
+          <td>工作出错后长时间自我批评，影响后续表现</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GAP ANALYSIS -->
+  <div class="content-block">
+    <div class="block-label">现有方案的局限</div>
+    <h2 class="block-title">为什么现有方案都不够用？</h2>
+    <div class="block-body">
+      <p>传统心理咨询：成本高昂，且面对面的高唤醒社交环境本身可能成为HSP的压力源。</p>
+      <p>通用型AI伴侣：基于"共情安抚"范式——简单的安慰回应对HSP无效。HSP有更严密的认知防御机制，缺乏逻辑深度的安慰会被识别为无效信息，甚至加剧其孤独感（"没人真正理解我"）。</p>
+    </div>
+    <div class="pull-quote">
+      <p>「对高敏感人群来说，被人误解的安慰比沉默更令人窒息。他们需要的不是被安抚，而是被真正看见——用逻辑，而不仅仅是共情。」</p>
+    </div>
+  </div>
+
+  <!-- SYSTEM DESIGN -->
+  <div class="content-block">
+    <div class="block-label">系统架构</div>
+    <h2 class="block-title">识别 → 评估 → 干预<br>三层闭环设计</h2>
+    <div class="block-body">
+      <p>本系统摒弃单一问卷，采用多模态融合识别+动态分级评估+差异化干预策略的完整闭环。</p>
+    </div>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-text">
+          <h5>智能识别（Identification）</h5>
+          <p>NLP捕捉HSP特有语言标记：过度解释、防御性词汇、高频"抱歉"或"担心"；结合计算机听觉与视觉，识别微表情中的"认知过载"信号（眉头紧锁、视线闪躲）及语音中的压抑性平淡（Flat Affect）。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-text">
+          <h5>动态评估（Assessment）</h5>
+          <p>建立"高敏心理审计模型"：SPS敏感度指数评估当前感官负荷；防御机制评级判断用户处于"开放交流"、"过度防御"还是"完全关机"状态；归因模式分析检测内归因偏差程度。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-text">
+          <h5>差异化干预（Intervention）</h5>
+          <p>核心升级：从"情绪安抚"到"认知重构与逻辑解构"。引入逻辑审计Agent，用苏格拉底式提问帮助用户拆解不合理的自动化思维，同时修正预测误差，降低不必要的焦虑预测。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HSP FEATURE MODEL -->
+  <div class="content-block">
+    <div class="block-label">特征建模</div>
+    <h2 class="block-title">HSP四维数字画像</h2>
+    <div class="block-body">
+      <p>基于感知层、认知层、情绪层、行为层的数字表征，实现精准识别与个性化干预。</p>
+    </div>
+    <table class="insight-table">
+      <thead>
+        <tr><th>特征维度</th><th>心理学表现</th><th>病理风险</th><th>数字化表征</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>感知层</strong></td>
+          <td>低感觉阈限</td>
+          <td>易激惹、惊恐发作</td>
+          <td>对环境噪音的过度反应描述，语音语调突然紧绷</td>
+        </tr>
+        <tr>
+          <td><strong>认知层</strong></td>
+          <td>深度加工</td>
+          <td>思维反刍、灾难化思维</td>
+          <td>对单一事件的长文本复盘，复杂因果句式</td>
+        </tr>
+        <tr>
+          <td><strong>情绪层</strong></td>
+          <td>高情绪反应度</td>
+          <td>替代性创伤、共情疲劳</td>
+          <td>高强度情绪词汇频率，自我边界模糊</td>
+        </tr>
+        <tr>
+          <td><strong>行为层</strong></td>
+          <td>行为抑制</td>
+          <td>社交回避、防御性沉默</td>
+          <td>回复延迟增长，频繁使用被动语态</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- INTERVENTION LEVELS -->
+  <div class="content-block">
+    <div class="block-label">分级干预矩阵</div>
+    <h2 class="block-title">根据症状程度匹配疗法</h2>
+    <div class="block-body">
+      <p>摒弃"单一技术解决所有问题"的思路，针对不同困扰程度设计差异化干预方案。</p>
+    </div>
+    <div class="level-grid">
+      <div class="level-card">
+        <div class="level-num">L1</div>
+        <div class="level-name">轻度困扰<br>日常敏感/轻微焦虑</div>
+        <div class="level-body">基于正念与ACT接纳承诺疗法的认知引导。通过结构化日记与情绪颗粒度训练，帮助用户区分"感知到的威胁"与"真实威胁"。</div>
+      </div>
+      <div class="level-card">
+        <div class="level-num">L2</div>
+        <div class="level-name">中度困扰<br>慢性压力/社交疲劳</div>
+        <div class="level-body">引入"逻辑审计Agent"，使用苏格拉底式提问拆解内归因偏差；搭配感官调节模块（如声景推荐、微休息提示）降低环境刺激负荷。</div>
+      </div>
+      <div class="level-card">
+        <div class="level-num">L3</div>
+        <div class="level-name">重度困扰<br>急性危机/解离风险</div>
+        <div class="level-body">触发危机分诊预警，系统自动降级为"稳定化优先"模式：引导接地练习（Grounding），同时推送人工专业支持通道，非AI独立处理范畴。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HR SIGNIFICANCE -->
+  <div class="content-block">
+    <div class="block-label">对HR×AI的意义</div>
+    <h2 class="block-title">为什么这件事属于HR×AI的交叉地带？</h2>
+    <div class="block-body">
+      <p>员工心理健康管理正在成为HR职能的战略重心，但传统EAP（员工援助计划）的渗透率和使用率都极低——主要障碍是"羞耻感"和"可及性"。</p>
+      <p>这个系统的核心假设是：<strong>AI可以降低心理支持的门槛</strong>——不需要面对人，不需要预约，不需要承认"我有问题"。对于具有强认知防御的HSP来说，这种"无压力入口"可能是唯一有效的第一步。</p>
+      <p>从组织视角看，识别和保留HSP人才（他们往往承担高精度、高创造力的工作）具有显著的人才管理价值。这一系统设计直接探索的是：<strong>AI如何成为HR识别、支持、留住特殊认知风格人才的基础设施。</strong></p>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  <a href="index.html" class="footer-back">← 返回作品集</a>
+  <span class="footer-copy">李旭琪 · 2026</span>
+</footer>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('ink-canvas');
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0xf0eee8, 0.06);
+
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 100);
+camera.position.set(0, 0, 9);
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0xf0eee8, 1);
+
+// 真·岸 = 9组墨团，蓝墨+紫+青+靛+水晶蓝，更饱满
+const inkGroups = [
+  { color: new THREE.Color(0x0a1520), tint: new THREE.Color(0x2a5a82), pos: [-2.5, 0.8, -0.3], scale: 1.8 },
+  { color: new THREE.Color(0x0a1828), tint: new THREE.Color(0x3f7a9a), pos: [0.5, 1.8, 0.5], scale: 1.5 },
+  { color: new THREE.Color(0x150a28), tint: new THREE.Color(0x7856a8), pos: [2.2, -0.5, 0.3], scale: 1.3 },
+  { color: new THREE.Color(0x081820), tint: new THREE.Color(0x5a9cb0), pos: [-0.8, -1.8, -0.2], scale: 1.2 },
+  { color: new THREE.Color(0x1a1528), tint: new THREE.Color(0x4a6890), pos: [1.0, 0.2, -0.8], scale: 1.1 },
+  { color: new THREE.Color(0x050d1a), tint: new THREE.Color(0x1a4a7a), pos: [-3.2, -0.5, 0.6], scale: 1.0 },
+  { color: new THREE.Color(0x101828), tint: new THREE.Color(0x6888b8), pos: [3.0, 1.2, -0.5], scale: 1.0 },
+  { color: new THREE.Color(0x180f28), tint: new THREE.Color(0x9070c8), pos: [-1.5, 2.5, -0.4], scale: 0.9 },
+  { color: new THREE.Color(0x0a1418), tint: new THREE.Color(0x48a0c0), pos: [0.0, -2.8, 0.4], scale: 0.95 },
+];
+
+const pCount = 1100;
+const total = inkGroups.length * pCount;
+const positions = new Float32Array(total*3);
+const colors = new Float32Array(total*3);
+const sizes = new Float32Array(total);
+const offsets = new Float32Array(total*3);
+const seeds = new Float32Array(total);
+
+let idx = 0;
+inkGroups.forEach((g, gi) => {
+  for (let i = 0; i < pCount; i++) {
+    const r = Math.pow(Math.random(), 0.55) * g.scale;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2*Math.random()-1);
+    positions[idx*3]   = g.pos[0] + r*Math.sin(phi)*Math.cos(theta);
+    positions[idx*3+1] = g.pos[1] + r*Math.sin(phi)*Math.sin(theta);
+    positions[idx*3+2] = g.pos[2] + r*Math.cos(phi);
+    const t = Math.min(r/g.scale, 1);
+    const c = g.color.clone().lerp(g.tint, Math.pow(t,1.5)*0.85);
+    colors[idx*3]=c.r; colors[idx*3+1]=c.g; colors[idx*3+2]=c.b;
+    sizes[idx] = (1.5 - t*0.9) * (0.07 + Math.random()*0.07);
+    offsets[idx*3]=Math.random()*Math.PI*2;
+    offsets[idx*3+1]=Math.random()*Math.PI*2;
+    offsets[idx*3+2]=Math.random()*Math.PI*2;
+    seeds[idx] = Math.random();
+    idx++;
+  }
+});
+
+const geo = new THREE.BufferGeometry();
+geo.setAttribute('position', new THREE.BufferAttribute(positions,3));
+geo.setAttribute('color', new THREE.BufferAttribute(colors,3));
+geo.setAttribute('size', new THREE.BufferAttribute(sizes,1));
+geo.setAttribute('offset', new THREE.BufferAttribute(offsets,3));
+geo.setAttribute('seed', new THREE.BufferAttribute(seeds,1));
+
+const mat = new THREE.ShaderMaterial({
+  vertexColors: true, transparent: true, depthWrite: false,
+  blending: THREE.NormalBlending,
+  uniforms: { uTime:{value:0}, uPixelRatio:{value:Math.min(window.devicePixelRatio,2)} },
+  vertexShader:`
+    attribute float size; attribute vec3 offset; attribute float seed;
+    varying vec3 vColor; varying float vAlpha; varying float vSeed;
+    uniform float uTime; uniform float uPixelRatio;
+    void main(){
+      vec3 pos=position;
+      float s1=sin(pos.x*.7+uTime*.25+offset.x);
+      float s2=cos(pos.y*.7+uTime*.2+offset.y);
+      float s3=sin(pos.z*.7+uTime*.3+offset.z);
+      pos+=vec3(s2*s3,s1*s3,s1*s2)*(0.35+seed*.3);
+      vec4 mv=modelViewMatrix*vec4(pos,1.);
+      gl_Position=projectionMatrix*mv;
+      gl_PointSize=size*uPixelRatio*(300./-mv.z);
+      vColor=color; vSeed=seed;
+      vAlpha=smoothstep(15.,4.,length(mv.xyz));
+    }
+  `,
+  fragmentShader:`
+    varying vec3 vColor; varying float vAlpha; varying float vSeed;
+    void main(){
+      vec2 c=gl_PointCoord-vec2(.5); float d=length(c);
+      float a=exp(-d*d*14.)*smoothstep(.5,.28,d);
+      gl_FragColor=vec4(vColor*(0.85+vSeed*.15),a*vAlpha*.48);
+    }
+  `
+});
+
+const cloud = new THREE.Points(geo, mat);
+scene.add(cloud);
+
+// connection lines
+const lm = new THREE.LineBasicMaterial({color:0x2a5a80,transparent:true,opacity:0.06});
+inkGroups.forEach((g1,i)=>inkGroups.forEach((g2,j)=>{
+  if(j>i){
+    const s=new THREE.Vector3(...g1.pos), e=new THREE.Vector3(...g2.pos);
+    const m=s.clone().lerp(e,.5); m.y+=(Math.random()-.5)*.8; m.z+=(Math.random()-.5)*.8;
+    const pts=new THREE.QuadraticBezierCurve3(s,m,e).getPoints(30);
+    scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),lm));
+  }
+}));
+
+let drag=false, px=0, py=0, tRx=0.04, tRy=0, cRx=0.04, cRy=0, lastT=Date.now();
+renderer.domElement.addEventListener('mousedown',e=>{drag=true;px=e.clientX;py=e.clientY;lastT=Date.now();});
+window.addEventListener('mousemove',e=>{if(!drag)return;tRy+=(e.clientX-px)*.005;tRx+=(e.clientY-py)*.005;px=e.clientX;py=e.clientY;lastT=Date.now();});
+window.addEventListener('mouseup',()=>drag=false);
+
+const clock = new THREE.Clock();
+function tick(){
+  requestAnimationFrame(tick);
+  mat.uniforms.uTime.value = clock.getElapsedTime();
+  if(Date.now()-lastT>2500) tRy+=.001;
+  cRx+=(tRx-cRx)*.05; cRy+=(tRy-cRy)*.05;
+  const t=clock.getElapsedTime();
+  cloud.rotation.x=cRx+Math.sin(t*.25)*.025;
+  cloud.rotation.y=cRy;
+  scene.traverse(o=>{if(o.isLine){o.rotation.x=cloud.rotation.x;o.rotation.y=cloud.rotation.y;}});
+  renderer.render(scene,camera);
+}
+tick();
+
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+</script>
+
+<script>
+// nav scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY>60);
+});
+// content fade-in
+const blocks = document.querySelectorAll('.content-block');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:0.1});
+blocks.forEach(b=>obs.observe(b));
+</script>
+</body>
+</html>

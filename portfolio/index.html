@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李旭琪 · 作品集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F1EB;
+    --ink: #1C1917;
+    --ink-soft: #44403C;
+    --ink-muted: #78716C;
+    --teal: #2A6B5E;
+    --teal-light: #E8F2F0;
+    --teal-mid: #4A9585;
+    --amber: #C17A2E;
+    --border: #E2DDD6;
+    --card-bg: #FDFCFA;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(245, 241, 235, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--teal); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 3rem 5rem;
+    position: relative;
+  }
+
+  .hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    color: var(--teal-mid);
+    text-transform: uppercase;
+    margin-bottom: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--teal-mid);
+  }
+
+  .hero-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.35s forwards;
+  }
+
+  .hero-name span {
+    color: var(--teal);
+  }
+
+  .hero-tagline {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--ink-soft);
+    font-weight: 300;
+    max-width: 560px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.5s forwards;
+  }
+
+  .hero-pills {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.65s forwards;
+  }
+
+  .pill {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    background: var(--card-bg);
+    letter-spacing: 0.04em;
+  }
+
+  .pill.accent {
+    border-color: var(--teal);
+    color: var(--teal);
+    background: var(--teal-light);
+  }
+
+  .hero-deco {
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 320px;
+    height: 320px;
+    opacity: 0;
+    animation: fadeIn 1.2s 0.8s forwards;
+  }
+
+  /* ── SECTION ── */
+  section {
+    padding: 6rem 3rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--teal-mid);
+    text-transform: uppercase;
+    margin-bottom: 3.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 200px;
+  }
+
+  /* ── INTRO STRIP ── */
+  .intro-strip {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 4rem 3rem;
+    margin: 0 -3rem;
+  }
+
+  .intro-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .intro-item h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 0.75rem;
+  }
+
+  .intro-item h3 span {
+    color: var(--teal-mid);
+  }
+
+  .intro-item p {
+    font-size: 0.85rem;
+    color: rgba(245,241,235,0.6);
+    line-height: 1.7;
+  }
+
+  /* ── CARDS ── */
+  .works-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .work-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .work-card.visible {
+    animation: fadeUp 0.7s forwards;
+  }
+
+  .work-card:hover {
+    border-color: var(--teal);
+    box-shadow: 0 8px 40px rgba(42, 107, 94, 0.08);
+  }
+
+  .card-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    min-height: 340px;
+  }
+
+  .card-left {
+    padding: 3rem;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card-number {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    transition: color 0.3s;
+  }
+
+  .work-card:hover .card-number {
+    color: var(--teal-light);
+  }
+
+  .card-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-subtitle {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    padding: 0.25rem 0.75rem;
+    background: var(--teal-light);
+    color: var(--teal);
+    border-radius: 100px;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  .tag.amber {
+    background: #FDF3E5;
+    color: var(--amber);
+  }
+
+  .tag.gray {
+    background: #F2EFE9;
+    color: var(--ink-soft);
+  }
+
+  .card-right {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+
+  .card-section h4 {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .card-section p {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .highlight-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .highlight-list li {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .highlight-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--teal-mid);
+    font-size: 0.75rem;
+  }
+
+  .hr-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--teal);
+    font-weight: 500;
+    margin-top: auto;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--teal);
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    align-self: flex-start;
+  }
+
+  .hr-link:hover {
+    background: var(--teal);
+    color: white;
+  }
+
+  /* ── DIVIDER LINE ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 3rem;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-main h2 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-main p {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+    line-height: 1.8;
+  }
+
+  .about-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .meta-item {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-item:last-child { border-bottom: none; }
+
+  .meta-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .meta-value {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(245,241,235,0.7);
+    padding: 4rem 3rem;
+    text-align: center;
+  }
+
+  .footer-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.5rem;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-sub {
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 2.5rem;
+    color: rgba(245,241,235,0.45);
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .footer-links a {
+    color: rgba(245,241,235,0.6);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--teal-mid); }
+
+  .footer-copy {
+    font-size: 0.72rem;
+    color: rgba(245,241,235,0.25);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-action {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .btn-detail {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.3rem;
+    border: 1px solid var(--teal);
+    color: var(--teal);
+    background: transparent;
+    border-radius: 2px;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    font-family: 'Noto Sans SC', sans-serif;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+  }
+
+  .btn-detail:hover {
+    background: var(--teal);
+    color: var(--cream);
+  }
+
+  .btn-detail .arrow {
+    transition: transform 0.2s;
+  }
+
+  .btn-detail:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes drawCircle {
+    from { stroke-dashoffset: 600; }
+    to   { stroke-dashoffset: 0; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav .nav-links { display: none; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    .hero-deco { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .intro-strip { padding: 3rem 1.5rem; margin: 0; }
+    .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .card-inner { grid-template-columns: 1fr; }
+    .card-left { border-right: none; border-bottom: 1px solid var(--border); }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    footer { padding: 3rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">李旭琪 · 作品集</div>
+  <ul class="nav-links">
+    <li><a href="#works">作品</a></li>
+    <li><a href="#about">关于</a></li>
+    <li><a href="https://careerpath-ai-xuqi.netlify.app" target="_blank">职引 CareerPath →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">作品集 · 2025–2026</div>
+    <h1 class="hero-name">李旭琪<span>。</span></h1>
+    <p class="hero-tagline">在人与技术之间找到逻辑——<br>从心理学研究到AI产品设计，从商业策划到落地执行。</p>
+    <div class="hero-pills">
+      <span class="pill accent">HR × AI</span>
+      <span class="pill">格拉斯哥大学 HRM 硕士</span>
+      <span class="pill">AI产品设计</span>
+      <span class="pill">组织心理学</span>
+    </div>
+  </div>
+
+  <!-- decorative SVG -->
+  <svg class="hero-deco" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="150" cy="150" r="130" stroke="#2A6B5E" stroke-width="0.5" stroke-dasharray="5 8"
+      style="animation: drawCircle 3s 1s ease-out forwards; stroke-dashoffset: 600;"/>
+    <circle cx="150" cy="150" r="90" stroke="#C17A2E" stroke-width="0.5" opacity="0.4"
+      style="animation: drawCircle 3s 1.4s ease-out forwards; stroke-dashoffset: 600;"/>
+    <text x="150" y="140" text-anchor="middle" font-family="Noto Serif SC" font-size="14" fill="#2A6B5E" opacity="0.7">研究</text>
+    <text x="150" y="162" text-anchor="middle" font-family="Noto Serif SC" font-size="14" fill="#2A6B5E" opacity="0.7">产品</text>
+    <text x="150" y="184" text-anchor="middle" font-family="Noto Serif SC" font-size="14" fill="#2A6B5E" opacity="0.7">执行</text>
+    <line x1="150" y1="20" x2="150" y2="50" stroke="#2A6B5E" stroke-width="0.5" opacity="0.3"/>
+    <line x1="150" y1="250" x2="150" y2="280" stroke="#2A6B5E" stroke-width="0.5" opacity="0.3"/>
+    <line x1="20" y1="150" x2="50" y2="150" stroke="#2A6B5E" stroke-width="0.5" opacity="0.3"/>
+    <line x1="250" y1="150" x2="280" y2="150" stroke="#2A6B5E" stroke-width="0.5" opacity="0.3"/>
+  </svg>
+</div>
+
+<!-- INTRO STRIP -->
+<div class="intro-strip">
+  <div class="intro-grid">
+    <div class="intro-item">
+      <h3>理解<span> 人</span></h3>
+      <p>心理学研究背景，深入高敏人群心理机制建模，探索AI如何介入人类情绪与认知过程。</p>
+    </div>
+    <div class="intro-item">
+      <h3>设计<span> 产品</span></h3>
+      <p>从需求分析到技术架构，独立完成AI产品全链路PRD，具备Function Calling与多Agent设计能力。</p>
+    </div>
+    <div class="intro-item">
+      <h3>推动<span> 落地</span></h3>
+      <p>跨境品牌从定位到供应链审计到定价模型，全链路商业规划，不止于纸面方案。</p>
+    </div>
+  </div>
+</div>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="section-label">精选作品</div>
+  <div class="works-grid">
+
+    <!-- CARD 1: 真·岸 -->
+    <div class="work-card" data-delay="0">
+      <div class="card-inner">
+        <div class="card-left">
+          <div>
+            <div class="card-number">01</div>
+            <h2 class="card-title">真·岸<br>True Shore</h2>
+            <p class="card-subtitle">AI心理学 × 高敏人群数字化干预系统</p>
+          </div>
+          <div class="card-tags">
+            <span class="tag">AI产品设计</span>
+            <span class="tag">组织心理健康</span>
+            <span class="tag amber">白皮书 v2.0</span>
+          </div>
+        </div>
+        <div class="card-right">
+          <div class="card-section">
+            <h4>研究问题</h4>
+            <p>高敏感人群（HSP）占总人口15-20%，在企业组织中长期处于"识别盲区"。传统干预方案成本高昂，通用型AI伴侣缺乏逻辑深度，无法穿透HSP的认知防御机制。</p>
+          </div>
+          <div class="card-section">
+            <h4>核心设计</h4>
+            <ul class="highlight-list">
+              <li>识别—评估—干预三层闭环架构，结合NLP与多模态信号捕捉</li>
+              <li>分级干预矩阵（Level 1-3），从ACT认知疗法到危机分诊预警</li>
+              <li>HSP特征建模表：感知层、认知层、情绪层、行为层四维数字画像</li>
+              <li>基于LLM的"逻辑审计Agent"——用苏格拉底式提问替代单纯共情安抚</li>
+            </ul>
+          </div>
+          <div class="card-section">
+            <h4>对HR×AI方向的意义</h4>
+            <p>本研究直接探索AI如何支持企业员工心理健康干预，是将人工智能心理学应用于组织管理场景的前沿实践。</p>
+          </div>
+          <div class="card-action">
+            <a href="project-trueshore.html" class="btn-detail">查看完整方案 <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- CARD 2: 桃源PRD -->
+    <div class="work-card" data-delay="150">
+      <div class="card-inner">
+        <div class="card-left">
+          <div>
+            <div class="card-number">02</div>
+            <h2 class="card-title">《桃源深处<br>有人家》<br>AI改造PRD</h2>
+            <p class="card-subtitle">模拟经营游戏智能化升级产品需求文档</p>
+          </div>
+          <div class="card-tags">
+            <span class="tag">产品需求文档</span>
+            <span class="tag">AI架构设计</span>
+            <span class="tag gray">游戏 × 情绪</span>
+          </div>
+        </div>
+        <div class="card-right">
+          <div class="card-section">
+            <h4>产品问题</h4>
+            <p>传统模拟经营游戏NPC交互基于固定脚本，无法感知玩家真实情绪；建造系统手动网格操作学习门槛高，脑力负荷大。</p>
+          </div>
+          <div class="card-section">
+            <h4>核心方案</h4>
+            <ul class="highlight-list">
+              <li>五层产品架构拆解：需求层 / 价值层 / 智能层 / 架构层 / 实施层</li>
+              <li>基于心理咨询技术的NPC情绪陪伴方案（共情、释义、面质等专业手法）</li>
+              <li>RAG知识库 + Function Calling API：自然语言驱动的智能建造助理</li>
+              <li>MetaGPT多Agent协作架构，定义原子化数据流与文件依赖关系</li>
+            </ul>
+          </div>
+          <div class="card-section">
+            <h4>能力体现</h4>
+            <p>从MAIR模型需求挖掘到具体API设计，完整呈现AI产品经理的系统性思维与技术落地能力。</p>
+          </div>
+          <div class="card-action">
+            <a href="project-taoyuan.html" class="btn-detail">查看完整PRD <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- CARD 3: Bare Logic -->
+    <div class="work-card" data-delay="300">
+      <div class="card-inner">
+        <div class="card-left">
+          <div>
+            <div class="card-number">03</div>
+            <h2 class="card-title">Bare Logic 2.0</h2>
+            <p class="card-subtitle">英国高端女袜跨境品牌全链路商业计划</p>
+          </div>
+          <div class="card-tags">
+            <span class="tag amber">商业策划</span>
+            <span class="tag">供应链管理</span>
+            <span class="tag gray">跨境电商</span>
+          </div>
+        </div>
+        <div class="card-right">
+          <div class="card-section">
+            <h4>市场机会</h4>
+            <p>英国175cm+高个女性连裤袜市场存在版型空白——现有品牌要么奢侈难及（Wolford £40-60），要么廉价失质。基于在英国求学的真实观察与田野调研发现此空缺。</p>
+          </div>
+          <div class="card-section">
+            <h4>方案亮点</h4>
+            <ul class="highlight-list">
+              <li>品牌定位："基础款奢侈化"，1200针工艺 × Tall-Plus专用版型</li>
+              <li>供应链审计打分表：5维度评分标准，低于4分直接淘汰</li>
+              <li>厂商沟通话术：降维打击式提问，亮出英方背景与专业壁垒</li>
+              <li>竞品定价审计模型，首发锚点 £24-28，毛利60-70%</li>
+            </ul>
+          </div>
+          <div class="card-section">
+            <h4>能力体现</h4>
+            <p>独立推进从品牌定位、供应链选择到出口定价的全链路商业项目，具备闭环执行思维。</p>
+          </div>
+          <div class="card-action">
+            <a href="project-barelogic.html" class="btn-detail">查看商业计划 <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="border-top: 1px solid var(--border);">
+  <div class="section-label">关于我</div>
+  <div class="about-grid">
+    <div class="about-main">
+      <h2>在人与技术<br>之间，找到逻辑。</h2>
+      <p>会计学学士背景给我对数字和流程的本能敏感；格拉斯哥大学人力资源管理硕士让我系统理解组织与人；AI PM课程和独立产品实践让这两件事真正在技术层面落了地。</p>
+      <p>我感兴趣的问题始终在交叉点上——AI如何更好地理解人，组织如何用技术让员工体验更好。这也是三件作品背后一致的驱动力。</p>
+    </div>
+    <div class="about-meta">
+      <div class="meta-item">
+        <div class="meta-label">教育背景</div>
+        <div class="meta-value">格拉斯哥大学 · 人力资源管理 硕士<br><span style="color:var(--ink-muted); font-size:0.82rem">烟台大学 · 会计学 学士</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">工作经历</div>
+        <div class="meta-value">山东建诚会计师事务所 · 审计助理<br><span style="color:var(--ink-muted); font-size:0.82rem">东营市心理学会 · 志愿者</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">目标方向</div>
+        <div class="meta-value">HR × AI 产品 / 运营<br><span style="color:var(--ink-muted); font-size:0.82rem">深圳 / 杭州</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">其他项目</div>
+        <div class="meta-value">
+          <a href="https://careerpath-ai-xuqi.netlify.app" target="_blank" style="color: var(--teal); text-decoration:none;">职引 CareerPath →</a>
+          <span style="color:var(--ink-muted); font-size:0.82rem; display:block; margin-top:0.2rem">AI求职平台演示站（简历诊断 / 岗位匹配 / 顾问预约）——从产品定义到前端落地独立完成</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">李旭琪</div>
+  <div class="footer-sub">HR × AI · 在人与技术之间，找到逻辑</div>
+  <div class="footer-links">
+    <a href="mailto:1364972682@qq.com">邮件联系</a>
+    <a href="https://careerpath-ai-xuqi.netlify.app" target="_blank">职引 CareerPath →</a>
+  </div>
+  <div class="footer-copy">© 2026 李旭琪 · 作品集</div>
+</footer>
+
+<script>
+// Scroll-triggered card animations
+const cards = document.querySelectorAll('.work-card');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const delay = entry.target.getAttribute('data-delay') || 0;
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, parseInt(delay));
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+cards.forEach(card => observer.observe(card));
+
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if (window.scrollY > 50) {
+    nav.style.borderBottomColor = 'rgba(226, 221, 214, 0.8)';
+  } else {
+    nav.style.borderBottomColor = 'var(--border)';
+  }
+});
+</script>
+</body>
+</html>

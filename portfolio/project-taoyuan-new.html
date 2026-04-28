@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>桃源深处有人家 PRD · 李旭琪作品集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F5F1EB;
+  --ink: #1C1917;
+  --ink-soft: #44403C;
+  --ink-muted: #78716C;
+  --accent: #2A6B5E;
+  --accent-light: #E8F2F0;
+  --accent-mid: #4A9585;
+  --amber: #C17A2E;
+  --border: #E2DDD6;
+  --card-bg: #FDFCFA;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { background:var(--cream); color:var(--ink); font-family:'Noto Sans SC',sans-serif; font-weight:300; line-height:1.8; overflow-x:hidden; }
+.hero { position:relative; width:100%; height:100vh; overflow:hidden; display:flex; align-items:flex-end; padding-bottom:6rem; }
+#ink-canvas { position:absolute; inset:0; }
+.paper-texture { position:absolute; inset:0; pointer-events:none; z-index:2; background:radial-gradient(ellipse at 20% 30%,rgba(42,107,94,.07) 0%,transparent 55%),radial-gradient(ellipse at 80% 70%,rgba(193,122,46,.05) 0%,transparent 55%); }
+.hero-overlay { position:absolute; bottom:0; left:0; right:0; height:55%; background:linear-gradient(to bottom,transparent,rgba(232,240,224,.97)); pointer-events:none; z-index:3; }
+.hero-content { position:relative; z-index:4; max-width:900px; margin:0 auto; padding:0 3rem; width:100%; opacity:0; animation:fadeUp 1s .5s forwards; }
+.hero-eyebrow { font-size:.72rem; letter-spacing:.2em; color:var(--accent-mid); text-transform:uppercase; margin-bottom:1rem; }
+.hero-title { font-family:'Noto Serif SC',serif; font-size:clamp(2.4rem,5vw,4.5rem); font-weight:700; line-height:1.15; color:var(--ink); margin-bottom:.8rem; }
+.hero-title span { color:var(--accent); }
+.hero-sub { font-size:1.05rem; color:var(--ink-soft); max-width:560px; }
+.scroll-hint { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); z-index:4; display:flex; flex-direction:column; align-items:center; gap:.5rem; font-size:.65rem; letter-spacing:.25em; color:var(--ink-muted); animation:bounce 2s infinite; }
+.scroll-hint::after { content:''; width:1px; height:40px; background:linear-gradient(to bottom,var(--ink-muted),transparent); }
+nav { position:fixed; top:0; width:100%; padding:1.2rem 3rem; display:flex; justify-content:space-between; align-items:center; z-index:100; transition:background .3s,border-color .3s; }
+nav.scrolled { background:rgba(245,241,235,.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+.nav-logo { font-family:'Noto Serif SC',serif; font-size:.9rem; font-weight:600; color:var(--ink); letter-spacing:.05em; text-decoration:none; }
+.nav-tag { font-size:.72rem; letter-spacing:.12em; color:var(--ink-muted); }
+.content { max-width:900px; margin:0 auto; padding:6rem 3rem; }
+.content-block { margin-bottom:5rem; opacity:0; transform:translateY(20px); transition:opacity .7s,transform .7s; }
+.content-block.visible { opacity:1; transform:none; }
+.block-label { font-size:.7rem; letter-spacing:.22em; color:var(--accent-mid); text-transform:uppercase; margin-bottom:2rem; display:flex; align-items:center; gap:1rem; }
+.block-label::after { content:''; flex:1; height:1px; background:var(--border); max-width:160px; }
+.block-title { font-family:'Noto Serif SC',serif; font-size:1.6rem; font-weight:600; color:var(--ink); margin-bottom:1.2rem; line-height:1.4; }
+.block-body p { font-size:.92rem; color:var(--ink-soft); margin-bottom:1rem; max-width:640px; }
+
+/* 5-layer arch */
+.arch-layers { display:flex; flex-direction:column; gap:2px; margin-top:1.5rem; }
+.arch-layer { display:grid; grid-template-columns:120px 1fr; background:var(--card-bg); border:1px solid var(--border); }
+.arch-layer-label { padding:1.2rem 1.4rem; background:var(--ink); color:var(--cream); display:flex; flex-direction:column; justify-content:center; }
+.arch-layer-label .en { font-size:.65rem; letter-spacing:.12em; color:rgba(245,241,235,.45); margin-bottom:.3rem; }
+.arch-layer-label .zh { font-size:.88rem; font-weight:500; letter-spacing:.06em; }
+.arch-layer-body { padding:1.2rem 1.4rem; font-size:.84rem; color:var(--ink-soft); line-height:1.7; }
+
+/* compare table */
+.compare-table { width:100%; border-collapse:collapse; margin-top:1.5rem; font-size:.85rem; }
+.compare-table th { padding:.75rem 1rem; background:var(--ink); color:var(--cream); font-weight:400; font-size:.78rem; letter-spacing:.06em; text-align:left; }
+.compare-table th:first-child { background:var(--accent); }
+.compare-table td { padding:.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; color:var(--ink-soft); line-height:1.65; }
+.compare-table tr:nth-child(even) td { background:var(--card-bg); }
+.compare-table td:first-child { font-weight:500; color:var(--ink); }
+
+/* agent cards */
+.agent-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); margin-top:1.5rem; }
+.agent-card { background:var(--card-bg); padding:1.4rem; }
+.agent-icon { font-size:1.4rem; margin-bottom:.6rem; }
+.agent-name { font-size:.82rem; font-weight:500; color:var(--ink); margin-bottom:.5rem; letter-spacing:.04em; }
+.agent-role { font-size:.78rem; color:var(--accent); margin-bottom:.5rem; }
+.agent-body { font-size:.78rem; color:var(--ink-muted); line-height:1.65; }
+
+/* api block */
+.api-block { background:var(--ink); border-radius:2px; padding:1.6rem; margin-top:1rem; font-family:monospace; font-size:.8rem; color:#a8d8b0; line-height:1.9; overflow-x:auto; }
+.api-block .key { color:#7eb8d4; }
+.api-block .str { color:#f0c070; }
+.api-block .comment { color:rgba(255,255,255,.3); }
+
+.pull-quote { margin:2.5rem 0; padding:2rem 2.5rem; border-left:3px solid var(--accent); background:var(--accent-light); }
+.pull-quote p { font-family:'Noto Serif SC',serif; font-size:1.05rem; color:var(--ink); line-height:1.7; }
+
+.page-footer { border-top:1px solid var(--border); padding:3rem; max-width:900px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+.footer-back { display:inline-flex; align-items:center; gap:.5rem; color:var(--ink-muted); font-size:.78rem; letter-spacing:.1em; text-decoration:none; transition:color .2s; }
+.footer-back:hover { color:var(--accent); }
+.footer-copy { font-size:.72rem; color:var(--ink-muted); letter-spacing:.08em; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;} }
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(6px);} }
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;} .hero-content{padding:0 1.5rem;} .content{padding:4rem 1.5rem;}
+  .agent-grid{grid-template-columns:1fr;} .arch-layer{grid-template-columns:1fr;}
+  .arch-layer-label{padding:.8rem 1rem;} .page-footer{padding:2rem 1.5rem;flex-direction:column;gap:1rem;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a href="index.html" class="nav-logo">← 李旭琪 · 作品集</a>
+  <span class="nav-tag">02 · 桃源 AI 改造 PRD</span>
+</nav>
+
+<div class="hero">
+  <canvas id="ink-canvas"></canvas>
+  <div class="paper-texture"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Project 02 · AI产品需求文档</div>
+    <h1 class="hero-title">《桃源深处有人家》<br><span>AI 改造方案</span></h1>
+    <p class="hero-sub">从"剧本预设"到"生灵赋智"——模拟经营游戏的智能化演进PRD</p>
+  </div>
+  <div class="scroll-hint">向下阅读</div>
+</div>
+
+<div class="content">
+
+  <div class="content-block">
+    <div class="block-label">产品背景</div>
+    <h2 class="block-title">固定脚本的游戏，能让人真的沉浸吗？</h2>
+    <div class="block-body">
+      <p>《桃源深处有人家》是一款主打国风治愈感的模拟经营游戏。玩家在这里种桃、建院、与村民互动——但核心体验存在两个根本性痛点：</p>
+      <p><strong>NPC交互停留在功能层面：</strong>村民只会说固定台词，无法感知玩家当下的真实情绪。玩家压力大想倾诉，得到的却是"今天的土豆丰收了！"</p>
+      <p><strong>建造系统认知负荷高：</strong>苏式园林的美学需要手动网格摆放，学习门槛高，打断了治愈感的流动。</p>
+    </div>
+    <div class="pull-quote">
+      <p>「这不是一次功能叠加，而是产能结构与产品底层逻辑的代际跨越。」</p>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <div class="block-label">五层架构分析</div>
+    <h2 class="block-title">AI产品的五层拆解方法论</h2>
+    <div class="block-body">
+      <p>基于AI产品构建路径，将改造目标拆解为五层架构，确保从用户需求到技术实施的完整闭环。</p>
+    </div>
+    <div class="arch-layers">
+      <div class="arch-layer">
+        <div class="arch-layer-label"><span class="en">REQUIREMENT</span><span class="zh">需求层</span></div>
+        <div class="arch-layer-body">运用MAIR模型深度挖掘玩家痛点。Map还原"种植-经营-装修-NPC互动"闭环；Assess识别"景观美学设计"与"深层情感诉求"为高强度认知损耗点；Identify判定AI在降低审美门槛及提供24/7专业级情绪抚慰方面的核心价值。</div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-label"><span class="en">VALUE</span><span class="zh">价值层</span></div>
+        <div class="arch-layer-body">核心价值在"减负"与"增益"。通过AI降低玩家在资源最优化布局时的脑力支出，将NPC从功能性工具转化为具备专业引导能力的情感支柱，提升用户留存率与沉浸感。</div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-label"><span class="en">INTELLIGENCE</span><span class="zh">智能层</span></div>
+        <div class="arch-layer-body">LLM负责意图解析；RAG挂载游戏百科（建筑坐标、资源产出率）与苏式园林风格模板；Function Calling执行引擎指令（移动建筑、生成布局、修改NPC好感度）。Prompt策略针对心理咨询场景强制遵循"中性态度"与"共情"原则。</div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-label"><span class="en">ARCHITECTURE</span><span class="zh">架构层</span></div>
+        <div class="arch-layer-body">基于Message ID通信机制的多Agent协作体系。所有中间产物（布局草图、心理画像）通过FileRepository类存储，.dependencies.json显式管理文件间依赖关系（如建造指令依赖当前情绪画像）。</div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-label"><span class="en">IMPLEMENTATION</span><span class="zh">实施层</span></div>
+        <div class="arch-layer-body">引用MetaGPT增量开发逻辑，支持在历史版本基础上进行功能迭代。系统通过Git记录变更，通过git head diff识别用户手动调整的园林配置，确保AI生成逻辑与用户手动修改的兼容。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <div class="block-label">核心功能一</div>
+    <h2 class="block-title">NPC情绪陪伴：心理咨询技术的游戏化落地</h2>
+    <div class="block-body">
+      <p>将专业心理咨询技术内化为NPC行为逻辑，使NPC具备真实的心理咨询师素养，而不只是"说好听的话"。</p>
+    </div>
+    <table class="compare-table">
+      <thead><tr><th>心理咨询技术</th><th>NPC行为设计</th><th>示例话术</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>共情（Empathy）</td>
+          <td>捕捉玩家因"作物枯萎"引发的沮丧，先情绪共鸣再提供支持</td>
+          <td>「我能感受到你现在的失落，就像这错过了花期的桃林，心里空落落的。没关系，我们在山谷里慢慢等它再开。」</td>
+        </tr>
+        <tr>
+          <td>释义（Paraphrasing）</td>
+          <td>重述玩家谈话核心内容以确认理解，避免误判意图</td>
+          <td>「你是说，因为最近山谷里的杂务太多，让你觉得有些透不过气，想把家园重新整理得清爽一些吗？」</td>
+        </tr>
+        <tr>
+          <td>解释（Interpretation）</td>
+          <td>用心理学理论描述行为实质，帮助玩家自我认知</td>
+          <td>「你如此频繁地调整围栏，或许是因为你在现实中正面临波动，潜意识里希望在这里重建一种掌控感。」</td>
+        </tr>
+        <tr>
+          <td>面质（Confrontation）</td>
+          <td>针对玩家言行不一提出质疑，促进真实对话</td>
+          <td>「你刚才说生活很悠闲，但你处理农作物的动作却比往常快了许多，是发生了什么让你感到急迫的事吗？」</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="content-block">
+    <div class="block-label">核心功能二</div>
+    <h2 class="block-title">智能建造助理：Function Calling API设计</h2>
+    <div class="block-body">
+      <p>玩家只需说"帮我把院子弄得清静点"，AI自动解析意图、调用RAG获取苏式园林风格逻辑、执行建造指令。定义三个原子化API：</p>
+    </div>
+    <div class="api-block">
+<span class="comment">// Function 1 — 移动现有资产</span>
+{
+  <span class="key">"function_name"</span>: <span class="str">"move_assets"</span>,
+  <span class="key">"description"</span>: <span class="str">"移动现有家具或建筑到指定坐标"</span>,
+  <span class="key">"parameters"</span>: {
+    <span class="key">"asset_id"</span>: <span class="str">"string"</span>,
+    <span class="key">"target_coordinates"</span>: {<span class="key">"x"</span>: <span class="str">"integer"</span>, <span class="key">"y"</span>: <span class="str">"integer"</span>}
+  }
+}
+
+<span class="comment">// Function 2 — 放置新建筑</span>
+{
+  <span class="key">"function_name"</span>: <span class="str">"place_building"</span>,
+  <span class="key">"description"</span>: <span class="str">"根据特定风格放置新建筑"</span>,
+  <span class="key">"parameters"</span>: {
+    <span class="key">"building_type"</span>: <span class="str">"string"</span>,
+    <span class="key">"style_preset"</span>: <span class="str">"su_zhou_garden | rustic_pastoral"</span>
+  }
+}
+
+<span class="comment">// Function 3 — 计算布局效率</span>
+{
+  <span class="key">"function_name"</span>: <span class="str">"calculate_efficiency"</span>,
+  <span class="key">"description"</span>: <span class="str">"评估布局的资源产出效率"</span>,
+  <span class="key">"parameters"</span>: {
+    <span class="key">"target_resource_type"</span>: <span class="str">"wood | grain | stone"</span>,
+    <span class="key">"proximity_radius"</span>: <span class="str">"integer"</span>
+  }
+}
+    </div>
+  </div>
+
+  <div class="content-block">
+    <div class="block-label">多Agent协作架构</div>
+    <h2 class="block-title">桃花村议事会——五Agent协同网络</h2>
+    <div class="block-body">
+      <p>基于MetaGPT框架设计多智能体协同体系，每个Agent负责独立职能，通过Message ID通信。</p>
+    </div>
+    <div class="agent-grid">
+      <div class="agent-card">
+        <div class="agent-icon">🧭</div>
+        <div class="agent-name">Coordinator</div>
+        <div class="agent-role">协调者 · 意图路由</div>
+        <div class="agent-body">识别玩家当前处于"剧情"、"经营"还是"闲聊"状态，分发任务到对应Agent。</div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-icon">📐</div>
+        <div class="agent-name">Planner</div>
+        <div class="agent-role">规划者 · 动态事件引擎</div>
+        <div class="agent-body">根据玩家长线偏好生成动态剧情走向，实现千人千面的内容生成。</div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-icon">📜</div>
+        <div class="agent-name">Researcher</div>
+        <div class="agent-role">资料库 · 世界观守护</div>
+        <div class="agent-body">向RAG校验剧情是否符合《桃源》世界观逻辑，防止内容越界。</div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-icon">⚙️</div>
+        <div class="agent-name">Coder/Executer</div>
+        <div class="agent-role">执行者 · 逻辑生成</div>
+        <div class="agent-body">输出具体的对话树配置与奖励代码逻辑，直接调用游戏引擎API。</div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-icon">📝</div>
+        <div class="agent-name">Reporter</div>
+        <div class="agent-role">记录者 · 记忆沉淀</div>
+        <div class="agent-body">记录玩家动态偏好标签，形成长线羁绊记忆，实现"越用越懂你"。</div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-icon">🛡️</div>
+        <div class="agent-name">OOC Guard</div>
+        <div class="agent-role">边界守护 · 越狱防护</div>
+        <div class="agent-body">部署前置Jailbreak机制与后置敏感词过滤，严格控制话题范围，屏蔽现实世界讨论。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <div class="block-label">能力体现</div>
+    <h2 class="block-title">这份PRD说明了什么？</h2>
+    <div class="block-body">
+      <p>这不是一份"功能清单"，而是一份完整的AI产品思维展示——从MAIR需求挖掘模型，到五层架构分析，到具体的Prompt策略、API设计、Agent角色定义、OOC边界设计，每一环都经过推导而非拍脑袋。</p>
+      <p>游戏场景的选择也有意为之：游戏中的情绪陪伴、个性化内容生成、用户行为数据驱动的动态调整——这些能力，在HR科技产品里有直接类比。员工情绪监测、个性化学习路径、智能工作流程优化，底层逻辑是相通的。</p>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  <a href="index.html" class="footer-back">← 返回作品集</a>
+  <span class="footer-copy">李旭琪 · 2026</span>
+</footer>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('ink-canvas');
+const W = window.innerWidth, H = window.innerHeight;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(50, W/H, 0.1, 100);
+camera.position.set(0, 0, 12);
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(W, H);
+renderer.setClearColor(0xe8f0e0, 1); // 淡草绿背景
+
+// 柔和光照
+const amb = new THREE.AmbientLight(0xffffff, 0.7);
+scene.add(amb);
+const sun = new THREE.DirectionalLight(0xfffbe0, 1.0);
+sun.position.set(3, 5, 4);
+scene.add(sun);
+const fill = new THREE.DirectionalLight(0xd0ffe8, 0.4);
+fill.position.set(-3, -1, 2);
+scene.add(fill);
+
+// ── 材质库 ──
+const M = {
+  white:  new THREE.MeshToonMaterial({ color: 0xf5f0e8 }),
+  body:   new THREE.MeshToonMaterial({ color: 0xf0ebe0 }),
+  green:  new THREE.MeshToonMaterial({ color: 0x5a9a4a }),
+  dkgreen:new THREE.MeshToonMaterial({ color: 0x3a7a2a }),
+  blush:  new THREE.MeshToonMaterial({ color: 0xf4a0a0, transparent:true, opacity:0.7 }),
+  eye:    new THREE.MeshToonMaterial({ color: 0x2a1a0a }),
+  smile:  new THREE.MeshToonMaterial({ color: 0x2a1a0a }),
+  amber:  new THREE.MeshToonMaterial({ color: 0xc17a2e }),
+  red:    new THREE.MeshToonMaterial({ color: 0xcc4433 }),
+  brown:  new THREE.MeshToonMaterial({ color: 0x7a4a20 }),
+  pink:   new THREE.MeshToonMaterial({ color: 0xf0a0b8 }),
+  cream:  new THREE.MeshToonMaterial({ color: 0xfff5d0 }),
+  hat:    new THREE.MeshToonMaterial({ color: 0x4a7a5a }),
+  bowl:   new THREE.MeshToonMaterial({ color: 0xc87040 }),
+  water:  new THREE.MeshToonMaterial({ color: 0x80c0e0, transparent:true, opacity:0.8 }),
+};
+
+// ── 基础萝卜身体构建器 ──
+function makeRadish(scale=1) {
+  const g = new THREE.Group();
+  // 身体（扁圆形用 SphereGeometry + 缩放）
+  const body = new THREE.Mesh(
+    new THREE.SphereGeometry(0.42, 14, 10),
+    M.body
+  );
+  body.scale.set(1, 1.15, 0.9);
+  g.add(body);
+  // 脸部发光底（淡奶油色圆片）
+  const face = new THREE.Mesh(
+    new THREE.CircleGeometry(0.3, 20),
+    M.cream
+  );
+  face.position.set(0, 0.04, 0.39);
+  g.add(face);
+  // 眼睛 x2
+  [-0.1, 0.1].forEach(x => {
+    const eye = new THREE.Mesh(new THREE.SphereGeometry(0.045, 8, 8), M.eye);
+    eye.position.set(x, 0.1, 0.42);
+    g.add(eye);
+    // 眼睛高光
+    const hl = new THREE.Mesh(new THREE.SphereGeometry(0.016, 6, 6),
+      new THREE.MeshBasicMaterial({color:0xffffff}));
+    hl.position.set(x+0.02, 0.12, 0.445);
+    g.add(hl);
+  });
+  g.scale.setScalar(scale);
+  return g;
+}
+
+// 叶子（萝卜头顶绿叶）
+function addLeaves(g, type='normal') {
+  const leafMat = type==='big' ? M.green : M.dkgreen;
+  const count = type==='big' ? 3 : 2;
+  for(let i=0;i<count;i++){
+    const leaf = new THREE.Mesh(
+      new THREE.ConeGeometry(0.08, 0.38, 6),
+      leafMat
+    );
+    leaf.position.set(
+      (Math.random()-0.5)*0.25,
+      0.52 + Math.random()*0.1,
+      (Math.random()-0.5)*0.1
+    );
+    leaf.rotation.z = (Math.random()-0.5)*0.5;
+    leaf.rotation.x = -0.2 + Math.random()*0.2;
+    g.add(leaf);
+  }
+}
+
+// 脸颊红晕
+function addBlush(g) {
+  [-0.22, 0.22].forEach(x => {
+    const b = new THREE.Mesh(
+      new THREE.CircleGeometry(0.1, 12),
+      M.blush
+    );
+    b.position.set(x, -0.02, 0.41);
+    g.add(b);
+  });
+}
+
+// 嘴（弧形用一排小球模拟）
+function addSmile(g, type='happy') {
+  const pts = type==='happy' ? [-0.08,-0.02,0.04] : [0.08,0.02,-0.04];
+  pts.forEach((y,i) => {
+    const dot = new THREE.Mesh(new THREE.SphereGeometry(0.025,6,6), M.smile);
+    dot.position.set(-0.08+i*0.08, -0.08 + (type==='happy'?-y:y), 0.415);
+    g.add(dot);
+  });
+}
+
+// ── 8只不同角色小萝卜 ──
+
+// 1. 萝小刀 — 拿着菜刀炒菜，得意洋洋
+function makeRadish1() {
+  const g = makeRadish(0.85);
+  addLeaves(g, 'big');
+  addBlush(g);
+  addSmile(g, 'happy');
+  // 炒锅
+  const wok = new THREE.Mesh(new THREE.SphereGeometry(0.2,12,8, 0, Math.PI*2, 0, Math.PI*0.5), M.bowl);
+  wok.position.set(0.55, -0.35, 0.1);
+  wok.rotation.z = 0.3;
+  g.add(wok);
+  // 锅柄
+  const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.3, 6), M.brown);
+  handle.position.set(0.3, -0.3, 0.1); handle.rotation.z = 1.2;
+  g.add(handle);
+  // 右臂
+  const arm = new THREE.Mesh(new THREE.CapsuleGeometry ? new THREE.SphereGeometry(0.07,8,6) : new THREE.SphereGeometry(0.07,8,6), M.body);
+  arm.position.set(0.45, -0.1, 0.2); arm.scale.set(0.5,1,0.5);
+  g.add(arm);
+  return g;
+}
+
+// 2. 萝一味 — 趴在地上喝汤，懒洋洋
+function makeRadish2() {
+  const g = makeRadish(0.78);
+  addLeaves(g);
+  addBlush(g);
+  addSmile(g, 'happy');
+  // 眯眼（覆盖原眼睛位置）
+  [-0.1,0.1].forEach(x=>{
+    const eye = new THREE.Mesh(
+      new THREE.SphereGeometry(0.035,8,4, 0, Math.PI),
+      M.eye
+    );
+    eye.position.set(x, 0.1, 0.44); eye.rotation.z = Math.PI;
+    g.add(eye);
+  });
+  // 汤碗
+  const bowl = new THREE.Mesh(new THREE.SphereGeometry(0.18,12,8,0,Math.PI*2,0,Math.PI*0.5), M.bowl);
+  bowl.position.set(0, -0.52, 0.15);
+  g.add(bowl);
+  // 身体压扁一点（懒趴感）
+  g.scale.y = 0.85;
+  return g;
+}
+
+// 3. 萝小杯 — 捧着日记本，认真阅读
+function makeRadish3() {
+  const g = makeRadish(0.82);
+  addLeaves(g);
+  addBlush(g);
+  addSmile(g, 'happy');
+  // 书
+  const book = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.28, 0.06), M.cream);
+  book.position.set(0.05, -0.3, 0.42); book.rotation.z = 0.1;
+  g.add(book);
+  // 书的线条装饰
+  const line = new THREE.Mesh(new THREE.BoxGeometry(0.25,0.02,0.07), M.amber);
+  line.position.set(0.05,-0.28,0.46); g.add(line);
+  // 小手捧着
+  const hand = new THREE.Mesh(new THREE.SphereGeometry(0.09,8,6), M.body);
+  hand.position.set(-0.22,-0.32,0.35); hand.scale.set(0.6,0.6,0.5);
+  g.add(hand);
+  return g;
+}
+
+// 4. 萝小虎 — 头上戴箍，双手叉腰，表情威严
+function makeRadish4() {
+  const g = makeRadish(0.9);
+  addLeaves(g, 'big');
+  addBlush(g);
+  // 眉毛（厉害表情）
+  [-0.1,0.1].forEach((x,i)=>{
+    const brow = new THREE.Mesh(new THREE.BoxGeometry(0.09,0.02,0.03), M.eye);
+    brow.position.set(x, 0.19, 0.43);
+    brow.rotation.z = i===0 ? 0.3 : -0.3;
+    g.add(brow);
+  });
+  // 嘴（平线，严肃）
+  const mouth = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.025, 0.03), M.eye);
+  mouth.position.set(0,-0.1,0.42); g.add(mouth);
+  // 头箍（圆环）
+  const hoop = new THREE.Mesh(new THREE.TorusGeometry(0.38, 0.04, 6, 24), M.amber);
+  hoop.position.set(0, 0.22, 0); hoop.rotation.x = Math.PI*0.5;
+  g.add(hoop);
+  // 叉腰小手
+  [-1,1].forEach(side=>{
+    const arm = new THREE.Mesh(new THREE.SphereGeometry(0.1,8,6), M.body);
+    arm.position.set(side*0.5, -0.2, 0.1); arm.scale.set(0.5,0.7,0.5);
+    g.add(arm);
+  });
+  return g;
+}
+
+// 5. 萝咩咩 — 戴着草帽，背着小篓，悠闲散步
+function makeRadish5() {
+  const g = makeRadish(0.8);
+  addLeaves(g);
+  addBlush(g);
+  addSmile(g, 'happy');
+  // 草帽
+  const brim = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 0.04, 20), M.amber);
+  brim.position.set(0, 0.46, 0);
+  g.add(brim);
+  const crown = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.3, 0.22, 16), M.amber);
+  crown.position.set(0, 0.56, 0);
+  g.add(crown);
+  // 小竹篓（背后）
+  const basket = new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.18,0.24,10), M.brown);
+  basket.position.set(-0.4, 0.05, -0.15);
+  g.add(basket);
+  return g;
+}
+
+// 6. 萝小满 — 靠着石头喝茶，满足闭眼
+function makeRadish6() {
+  const g = makeRadish(0.76);
+  addLeaves(g);
+  addBlush(g);
+  // 闭眼（横线）
+  [-0.1,0.1].forEach(x=>{
+    const eye = new THREE.Mesh(new THREE.BoxGeometry(0.08,0.025,0.03), M.eye);
+    eye.position.set(x,0.1,0.435);
+    g.add(eye);
+  });
+  // 满足嘴
+  addSmile(g,'happy');
+  // 茶杯
+  const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.08,0.12,10), M.green);
+  cup.position.set(0.4,-0.22,0.25);
+  g.add(cup);
+  // 石头（简单方块）
+  const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(0.25,0), M.brown);
+  rock.position.set(-0.5,-0.25,0); rock.scale.set(1,0.8,0.7);
+  g.add(rock);
+  // 倚靠姿态
+  g.rotation.z = -0.15;
+  return g;
+}
+
+// 7. 萝小磨 — 荡秋千，开心飞扬
+function makeRadish7() {
+  const g = makeRadish(0.82);
+  addLeaves(g, 'big');
+  addBlush(g);
+  addSmile(g, 'happy');
+  // 秋千绳
+  [-0.22,0.22].forEach(x=>{
+    const rope = new THREE.Mesh(new THREE.CylinderGeometry(0.015,0.015,0.7,6), M.brown);
+    rope.position.set(x, 0.55, 0);
+    g.add(rope);
+  });
+  // 秋千板
+  const seat = new THREE.Mesh(new THREE.BoxGeometry(0.56,0.06,0.22), M.brown);
+  seat.position.set(0, 0.2, 0);
+  g.add(seat);
+  // 踢腿动感（腿）
+  const leg = new THREE.Mesh(new THREE.SphereGeometry(0.09,8,6), M.body);
+  leg.position.set(0.3,-0.35,0.3); leg.scale.set(0.5,1.2,0.5);
+  g.add(leg);
+  return g;
+}
+
+// 8. 萝小花 — 头戴花环，手捧葡萄，微笑
+function makeRadish8() {
+  const g = makeRadish(0.86);
+  addLeaves(g);
+  addBlush(g);
+  addSmile(g, 'happy');
+  // 花环
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.36,0.05,6,22), M.pink);
+  ring.position.set(0,0.32,0); ring.rotation.x = Math.PI*0.4;
+  g.add(ring);
+  // 小花点缀
+  [0,1.0,2.1,3.2,4.5,5.5].forEach(a=>{
+    const flower = new THREE.Mesh(new THREE.SphereGeometry(0.07,6,6), M.cream);
+    flower.position.set(Math.cos(a)*0.35, 0.36+Math.sin(a)*0.08, Math.sin(a)*0.18);
+    g.add(flower);
+  });
+  // 葡萄串
+  const grapeGroup = new THREE.Group();
+  [[0,0],[-.1,.12],[.1,.12],[-.15,0],[.15,0],[0,-.12],[-.08,-.22],[.08,-.22]].forEach(([x,y])=>{
+    const grape = new THREE.Mesh(new THREE.SphereGeometry(0.07,8,8),
+      new THREE.MeshToonMaterial({color:0x9060c0}));
+    grape.position.set(x,y,0);
+    grapeGroup.add(grape);
+  });
+  grapeGroup.position.set(0.4,-0.1,0.35);
+  grapeGroup.scale.setScalar(0.8);
+  g.add(grapeGroup);
+  return g;
+}
+
+// ── 布置8只萝卜到场景 ──
+const radishDefs = [
+  { make: makeRadish1, pos: [-4.2,  1.2, -1.0], rot: [0.1, -0.3, 0.0], bobPhase: 0.0,   bobAmp: 0.12 },
+  { make: makeRadish2, pos: [ 3.8,  2.0, -0.5], rot: [0.1,  0.4, 0.1], bobPhase: 0.8,   bobAmp: 0.08 },
+  { make: makeRadish3, pos: [-2.0,  2.8,  0.0], rot: [0.0,  0.2, 0.0], bobPhase: 1.6,   bobAmp: 0.10 },
+  { make: makeRadish4, pos: [ 2.2,  0.5,  0.5], rot: [0.0, -0.5, 0.0], bobPhase: 2.4,   bobAmp: 0.15 },
+  { make: makeRadish5, pos: [-3.8, -1.5, -0.3], rot: [0.0,  0.6, 0.0], bobPhase: 3.2,   bobAmp: 0.10 },
+  { make: makeRadish6, pos: [ 0.5, -2.4,  0.2], rot: [0.0, -0.2, -0.15], bobPhase: 0.5, bobAmp: 0.07 },
+  { make: makeRadish7, pos: [ 4.0, -1.0, -0.8], rot: [0.0,  0.3, 0.0], bobPhase: 1.2,   bobAmp: 0.18 },
+  { make: makeRadish8, pos: [-0.5,  0.8, -1.5], rot: [0.1, -0.1, 0.0], bobPhase: 2.0,   bobAmp: 0.11 },
+];
+
+const radishes = radishDefs.map(def => {
+  const mesh = def.make();
+  mesh.position.set(...def.pos);
+  mesh.rotation.set(...def.rot);
+  mesh.userData = { bobPhase: def.bobPhase, bobAmp: def.bobAmp, baseY: def.pos[1] };
+  scene.add(mesh);
+  return mesh;
+});
+
+// 地面落叶粒子（绿色/黄色小点飘散）
+const leafGeo = new THREE.BufferGeometry();
+const leafCount = 120;
+const lpos = new Float32Array(leafCount*3);
+const lvel = [];
+for(let i=0;i<leafCount;i++){
+  lpos[i*3]   = (Math.random()-0.5)*14;
+  lpos[i*3+1] = (Math.random()-0.5)*8;
+  lpos[i*3+2] = (Math.random()-0.5)*3 - 1;
+  lvel.push({ vx:(Math.random()-.5)*0.005, vy:-0.004-Math.random()*0.006, phase:Math.random()*Math.PI*2 });
+}
+leafGeo.setAttribute('position', new THREE.BufferAttribute(lpos,3));
+const leafMat = new THREE.PointsMaterial({ color:0x7ab85a, size:0.08, transparent:true, opacity:0.6 });
+const leaves = new THREE.Points(leafGeo, leafMat);
+scene.add(leaves);
+
+// 交互：整个场景可拖动
+let drag=false, mpx=0, mpy=0, tRy=0, cRy=0, lastT=Date.now();
+renderer.domElement.addEventListener('mousedown', e=>{drag=true;mpx=e.clientX;mpy=e.clientY;lastT=Date.now();});
+window.addEventListener('mousemove', e=>{
+  if(!drag)return;
+  tRy += (e.clientX-mpx)*0.005;
+  mpx=e.clientX; mpy=e.clientY; lastT=Date.now();
+});
+window.addEventListener('mouseup',()=>drag=false);
+// touch
+renderer.domElement.addEventListener('touchstart',e=>{drag=true;mpx=e.touches[0].clientX;lastT=Date.now();},{passive:true});
+window.addEventListener('touchmove',e=>{if(!drag)return;tRy+=(e.touches[0].clientX-mpx)*0.005;mpx=e.touches[0].clientX;lastT=Date.now();},{passive:true});
+window.addEventListener('touchend',()=>drag=false);
+
+const sceneGroup = new THREE.Group();
+radishes.forEach(r=>{ scene.remove(r); sceneGroup.add(r); });
+scene.add(sceneGroup);
+sceneGroup.add(leaves);
+
+const clock = new THREE.Clock();
+function tick() {
+  requestAnimationFrame(tick);
+  const t = clock.getElapsedTime();
+
+  // 萝卜上下浮动（每只有独立相位，像在自由散漫玩耍）
+  radishes.forEach(r=>{
+    r.position.y = r.userData.baseY + Math.sin(t*0.9 + r.userData.bobPhase) * r.userData.bobAmp;
+    // 轻微左右晃动
+    r.rotation.z = Math.sin(t*0.6 + r.userData.bobPhase*0.7) * 0.06;
+  });
+
+  // 落叶飘动
+  const lp = leafGeo.attributes.position.array;
+  for(let i=0;i<leafCount;i++){
+    lvel[i].phase += 0.02;
+    lp[i*3]   += lvel[i].vx + Math.sin(lvel[i].phase*0.5)*0.003;
+    lp[i*3+1] += lvel[i].vy;
+    lp[i*3+2] += Math.sin(lvel[i].phase)*0.002;
+    if(lp[i*3+1] < -4.5){ lp[i*3+1]=4.5; lp[i*3]=(Math.random()-.5)*14; }
+  }
+  leafGeo.attributes.position.needsUpdate = true;
+
+  // 场景慢转（不操作时）
+  if(Date.now()-lastT > 2500) tRy += 0.0008;
+  cRy += (tRy - cRy) * 0.04;
+  sceneGroup.rotation.y = cRy;
+
+  renderer.render(scene, camera);
+}
+tick();
+
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+</script>
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);});
+const blocks=document.querySelectorAll('.content-block');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.1});
+blocks.forEach(b=>obs.observe(b));
+</script>
+</body>
+</html>
