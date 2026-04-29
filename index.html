@@ -1,10 +1,1156 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <title>Career Path</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>职引 CareerPath — 让每一次求职都有底气</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=DM+Mono:wght@300;400&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & VARS ===== */
+:root {
+  --ink: #0e0e0e; --paper: #f5f0e8; --cream: #ede8dc;
+  --accent: #c8341a; --gold: #d4a843; --muted: #7a7065;
+  --light: #faf8f3; --success: #2d7a4f; --border: rgba(0,0,0,0.09);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Noto Serif SC',serif;font-weight:300;overflow-x:hidden;cursor:none}
+
+/* ===== CURSOR ===== */
+#cursor{width:11px;height:11px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s;mix-blend-mode:multiply}
+#cursor.big{width:42px;height:42px;opacity:.3}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 4rem;background:rgba(245,240,232,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);transition:background .3s}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:2px;color:var(--ink);text-decoration:none;cursor:none}
+.logo span{color:var(--accent)}
+nav ul{list-style:none;display:flex;gap:2rem;align-items:center}
+nav ul a{text-decoration:none;font-size:.78rem;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;transition:color .2s;font-family:'DM Mono',monospace;cursor:none}
+nav ul a:hover,nav ul a.active{color:var(--accent)}
+.nav-btn{background:var(--ink)!important;color:var(--paper)!important;padding:.48rem 1.3rem;transition:background .2s!important}
+.nav-btn:hover{background:var(--accent)!important}
+
+/* ===== PAGE SYSTEM ===== */
+.page{display:none;min-height:100vh;padding-top:72px;animation:fadeIn .4s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== SHARED COMPONENTS ===== */
+.btn{display:inline-block;padding:.88rem 2rem;font-family:'Noto Serif SC',serif;font-size:.88rem;letter-spacing:1px;cursor:none;border:none;transition:all .2s;text-decoration:none;text-align:center}
+.btn-primary{background:var(--accent);color:white}.btn-primary:hover{background:#a02a14;transform:translateY(-2px)}
+.btn-dark{background:var(--ink);color:var(--paper)}.btn-dark:hover{background:#2a2a2a}
+.btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}.btn-outline:hover{background:var(--ink);color:var(--paper)}
+.btn-gold{background:var(--gold);color:var(--ink)}.btn-gold:hover{background:#b8922f}
+.section-label{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;display:flex;align-items:center;gap:.8rem}
+.section-label::before{content:'';width:26px;height:1px;background:var(--accent)}
+.section-title{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:600;line-height:1.15;margin-bottom:1rem}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s,transform .65s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.field{margin-bottom:1.3rem}
+.field label{display:block;font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem}
+.field input,.field select,.field textarea{width:100%;padding:.82rem 1rem;background:white;border:1.5px solid var(--cream);font-family:'Noto Serif SC',serif;font-size:.88rem;color:var(--ink);outline:none;transition:border-color .2s;appearance:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:90px}
+.card{background:white;padding:2rem;border:1px solid var(--cream);transition:box-shadow .2s,transform .2s;cursor:none}
+.card:hover{box-shadow:7px 7px 0 var(--gold);transform:translate(-2px,-2px)}
+
+/* ===== FOOTER ===== */
+footer{background:#080808;color:rgba(245,240,232,.42);padding:4rem 4rem 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand .logo{color:var(--paper);display:block;margin-bottom:1rem}
+.footer-brand p{font-size:.8rem;line-height:1.7;max-width:210px}
+.footer-col h4{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:2px;text-transform:uppercase;color:var(--paper);margin-bottom:1rem}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:.6rem}
+.footer-col a{text-decoration:none;color:rgba(245,240,232,.4);font-size:.8rem;transition:color .2s;cursor:none}
+.footer-col a:hover{color:var(--accent)}
+.footer-bottom{display:flex;justify-content:space-between;padding-top:1.8rem;border-top:1px solid rgba(255,255,255,.05);font-family:'DM Mono',monospace;font-size:.7rem}
+
+/* ============================================================
+   PAGE 1: HOME
+   ============================================================ */
+.hero{min-height:calc(100vh - 72px);display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;align-items:center}
+.hero-bg-text{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:clamp(100px,20vw,260px);color:rgba(0,0,0,.033);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;z-index:0}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:4rem 3rem 4rem 5rem;position:relative;z-index:1}
+.hero-tag{display:inline-flex;align-items:center;gap:.6rem;font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:1.6rem}
+.hero-tag::before{content:'';width:26px;height:1px;background:var(--accent)}
+.hero-h1{font-size:clamp(2.5rem,4.5vw,4rem);font-weight:700;line-height:1.1;letter-spacing:-1px;margin-bottom:1.3rem}
+.hero-h1 em{font-style:normal;color:var(--accent);position:relative}
+.hero-h1 em::after{content:'';position:absolute;bottom:4px;left:0;right:0;height:3px;background:var(--gold)}
+.hero-sub{font-size:.98rem;color:var(--muted);line-height:1.85;max-width:400px;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid var(--border)}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.3rem;line-height:1}
+.stat-num span{color:var(--accent)}
+.stat-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:.3rem}
+.hero-right{display:flex;align-items:center;justify-content:center;padding:4rem 4rem 4rem 2rem;position:relative;z-index:1}
+.resume-card{background:white;width:295px;box-shadow:18px 18px 0 var(--gold),20px 20px 48px rgba(0,0,0,.12);padding:2rem;position:relative;animation:floatCard 4s ease-in-out infinite}
+@keyframes floatCard{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(.5deg)}}
+.rc-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem}
+.rc-avatar{width:46px;height:46px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:1.15rem;font-weight:700}
+.rc-head h3{font-size:.92rem;font-weight:600}
+.rc-head p{font-size:.7rem;color:var(--muted);font-family:'DM Mono',monospace}
+.rc-row{margin-bottom:.85rem}
+.rc-lbl{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.bar{height:5px;background:var(--cream)}
+.bar-fill{height:100%;background:var(--accent);animation:fillBar 1.8s ease forwards}
+@keyframes fillBar{from{width:0}}
+.score-badge{position:absolute;top:-1rem;right:-1rem;background:var(--accent);color:white;width:52px;height:52px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;line-height:1;box-shadow:4px 4px 16px rgba(200,52,26,.4);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.score-badge small{font-family:'DM Mono',monospace;font-size:.4rem;letter-spacing:1px}
+.float-chip{position:absolute;font-family:'DM Mono',monospace;font-size:.66rem;padding:.33rem .72rem;letter-spacing:1px;animation:chipFloat 3.5s ease-in-out infinite}
+@keyframes chipFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.chip1{background:var(--ink);color:var(--paper);top:16%;right:4%;animation-delay:.4s}
+.chip2{background:var(--gold);color:var(--ink);bottom:20%;left:3%;animation-delay:1.1s}
+
+/* services */
+.home-services{padding:7rem 5rem;background:var(--ink);color:var(--paper)}
+.home-services .section-label::before{background:var(--accent)}
+.sv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:3.5rem}
+.sv{background:rgba(255,255,255,.04);padding:2.5rem 2rem;border:1px solid rgba(255,255,255,.05);position:relative;transition:background .3s;cursor:none}
+.sv::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.sv:hover{background:rgba(255,255,255,.07)}
+.sv:hover::after{transform:scaleX(1)}
+.sv-num{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(255,255,255,.05);line-height:1;margin-bottom:1rem}
+.sv-icon{font-size:1.7rem;margin-bottom:.7rem}
+.sv h3{font-size:1.05rem;font-weight:600;margin-bottom:.7rem}
+.sv p{font-size:.82rem;color:rgba(245,240,232,.5);line-height:1.8}
+.sv-lnk{display:inline-block;margin-top:1.1rem;font-family:'DM Mono',monospace;font-size:.68rem;color:var(--accent);cursor:none;opacity:0;transition:opacity .3s;letter-spacing:1px}
+.sv:hover .sv-lnk{opacity:1}
+
+/* why */
+.home-why{padding:7rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.why-pts{display:flex;flex-direction:column;gap:1.4rem;margin-top:2rem}
+.why-pt{display:flex;gap:1.1rem;align-items:flex-start}
+.why-ic{width:42px;height:42px;background:var(--accent);color:white;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.why-pt h4{font-size:.95rem;font-weight:600;margin-bottom:.25rem}
+.why-pt p{font-size:.8rem;color:var(--muted);line-height:1.7}
+.why-vis{background:var(--cream);padding:2.8rem;position:relative}
+.why-vis::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold)}
+.why-big{font-family:'Bebas Neue',sans-serif;font-size:7.5rem;color:var(--accent);line-height:1}
+.why-big-lbl{font-size:1.3rem;font-weight:600;margin-top:.4rem}
+.why-big-sub{font-size:.82rem;color:var(--muted);margin-top:.4rem}
+.why-rows{margin-top:1.8rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.why-row{display:flex;justify-content:space-between;padding:.4rem 0;font-size:.82rem}
+.why-row span:last-child{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--accent)}
+
+/* testimonials */
+.home-tests{padding:6rem 5rem;overflow:hidden;background:var(--light)}
+.ttrack-wrap{overflow:hidden;margin-top:2.8rem}
+.ttrack{display:flex;gap:1.5rem;animation:tslide 22s linear infinite;width:max-content}
+@keyframes tslide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tcard{background:white;width:330px;flex-shrink:0;padding:1.8rem;border-top:3px solid transparent;transition:border-color .3s}
+.tcard:hover{border-color:var(--accent)}
+.tquote{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent)}
+.ttext{font-size:.85rem;line-height:1.8;color:var(--ink);margin:.5rem 0 1rem}
+.tauthor{display:flex;align-items:center;gap:.7rem}
+.tavatar{width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:white;font-size:.82rem;font-weight:700}
+.tname{font-size:.82rem;font-weight:600}
+.trole{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted)}
+
+/* cta strip */
+.cta-strip{padding:6rem 5rem;background:var(--accent);color:white;text-align:center;position:relative;overflow:hidden}
+.cta-strip::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(255,255,255,.03) 40px,rgba(255,255,255,.03) 80px)}
+.cta-strip h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,5rem);letter-spacing:2px;position:relative;z-index:1}
+.cta-strip p{opacity:.85;margin:1rem 0 2.5rem;position:relative;z-index:1;font-size:1rem}
+.cta-row{display:flex;max-width:440px;margin:0 auto;position:relative;z-index:1}
+.cta-row input{flex:1;padding:1rem 1.2rem;border:none;font-family:'Noto Serif SC',serif;font-size:.88rem;outline:none}
+.cta-row button{padding:1rem 1.8rem;background:var(--ink);color:white;border:none;font-family:'Noto Serif SC',serif;font-size:.88rem;cursor:none;transition:background .2s;white-space:nowrap}
+.cta-row button:hover{background:#222}
+
+/* ============================================================
+   PAGE 2: RESUME
+   ============================================================ */
+.resume-hero{padding:4rem 5rem 3.5rem;background:var(--ink);color:var(--paper);display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;overflow:hidden}
+.resume-hero::after{content:'RESUME';font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,14vw,180px);color:rgba(255,255,255,.03);position:absolute;right:-1rem;bottom:-1rem;pointer-events:none}
+.resume-hero .section-label{color:var(--gold)}
+.resume-hero .section-label::before{background:var(--gold)}
+.resume-hero h1{font-size:clamp(1.9rem,3.5vw,3rem);font-weight:700;line-height:1.15;margin-bottom:1rem}
+.resume-hero p{color:rgba(245,240,232,.6);font-size:.92rem;line-height:1.8}
+.hero-badges{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.4rem}
+.badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.07);padding:.38rem .88rem;font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;color:var(--gold)}
+.hero-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.hsg-item{background:rgba(255,255,255,.05);padding:1.4rem;text-align:center}
+.hsg-num{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--accent);line-height:1}
+.hsg-lbl{font-family:'DM Mono',monospace;font-size:.62rem;color:rgba(245,240,232,.4);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+
+.tool-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:3rem;padding:4rem 5rem;max-width:1200px;margin:0 auto}
+.upload-panel{display:flex;flex-direction:column;gap:1.4rem}
+.upload-zone{border:2px dashed var(--cream);padding:2.5rem 2rem;text-align:center;background:white;cursor:none;transition:border-color .3s,background .3s;position:relative}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:#fff8f6}
+.upload-icon{font-size:2.8rem;margin-bottom:.8rem}
+.upload-zone h3{font-size:1rem;font-weight:600;margin-bottom:.4rem}
+.upload-zone p{font-size:.8rem;color:var(--muted)}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:none}
+.upload-types{display:flex;gap:.4rem;justify-content:center;margin-top:.8rem}
+.tag-chip{background:var(--cream);font-family:'DM Mono',monospace;font-size:.62rem;padding:.22rem .55rem;letter-spacing:1px}
+.or-divider{text-align:center;font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted);letter-spacing:2px;display:flex;align-items:center;gap:1rem}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.analyze-btn{width:100%;padding:1.1rem;background:var(--accent);color:white;border:none;font-family:'Noto Serif SC',serif;font-size:.95rem;letter-spacing:1px;cursor:none;transition:background .2s}
+.analyze-btn:hover{background:#a02a14}
+
+.result-wrap{position:relative;min-height:400px}
+#r-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:400px;background:white;border:1.5px dashed var(--cream);text-align:center;padding:3rem}
+.loading-ov{display:none;position:absolute;inset:0;background:white;z-index:10;align-items:center;justify-content:center;flex-direction:column;gap:1rem}
+.loading-ov.show{display:flex}
+.loader{width:46px;height:46px;border:3px solid var(--cream);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-txt{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.result-panel{display:none;flex-direction:column;gap:1.4rem}
+.result-panel.show{display:flex}
+.score-hero-box{background:white;padding:1.8rem;text-align:center;border-top:4px solid var(--accent)}
+.score-circle{width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--accent) 0% calc(var(--pct) * 1%),var(--cream) calc(var(--pct) * 1%) 100%);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;position:relative}
+.score-circle::before{content:'';position:absolute;inset:11px;background:white;border-radius:50%}
+.score-circle span{position:relative;z-index:1;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent)}
+.score-label{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.score-title{font-size:.95rem;font-weight:600;margin-top:.3rem}
+.dims-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.dim-card{background:white;padding:1.1rem}
+.dim-name{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+.dim-score{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;line-height:1}
+.dim-bar{height:4px;background:var(--cream);margin-top:.4rem}
+.dim-bar-fill{height:100%;background:var(--accent);transition:width 1.2s ease}
+.dim-card.good .dim-score{color:var(--success)}.dim-card.good .dim-bar-fill{background:var(--success)}
+.dim-card.warn .dim-score{color:var(--gold)}.dim-card.warn .dim-bar-fill{background:var(--gold)}
+.advice-list{background:white;padding:1.4rem}
+.advice-list h4{font-size:.83rem;font-weight:600;margin-bottom:.9rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.advice-item{display:flex;gap:.7rem;padding:.65rem 0;border-bottom:1px solid var(--cream);font-size:.8rem;line-height:1.6;align-items:flex-start}
+.advice-item:last-child{border:none}
+.advice-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.dot-r{background:var(--accent)}.dot-y{background:var(--gold)}.dot-g{background:var(--success)}
+.result-cta{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+
+.how-section{padding:4.5rem 5rem;background:var(--cream)}
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2.5rem}
+.how-step{background:var(--paper);padding:1.8rem 1.5rem;position:relative}
+.how-step::after{content:'→';position:absolute;right:-1rem;top:50%;transform:translateY(-50%);font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--cream);z-index:1}
+.how-step:last-child::after{display:none}
+.how-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--cream)}
+.how-step h4{font-size:.92rem;font-weight:600;margin:.4rem 0}
+.how-step p{font-size:.78rem;color:var(--muted);line-height:1.7}
+
+/* ============================================================
+   PAGE 3: JOBS
+   ============================================================ */
+.jobs-search-hero{padding:3.5rem 5rem 2.5rem;background:var(--paper);border-bottom:1px solid var(--border)}
+.jobs-search-hero h1{font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:700;margin-bottom:1.4rem}
+.jobs-search-hero h1 span{color:var(--accent)}
+.search-bar{display:flex;background:white;border:1.5px solid var(--cream);max-width:780px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.search-bar input{flex:1;padding:1rem 1.2rem;border:none;font-family:'Noto Serif SC',serif;font-size:.88rem;outline:none}
+.search-bar select{padding:1rem;border:none;border-left:1px solid var(--cream);font-family:'Noto Serif SC',serif;font-size:.83rem;background:transparent;outline:none;color:var(--muted);min-width:110px;cursor:none}
+.search-bar button{padding:1rem 1.8rem;background:var(--accent);color:white;border:none;font-family:'Noto Serif SC',serif;font-size:.88rem;cursor:none;transition:background .2s;white-space:nowrap}
+.search-bar button:hover{background:#a02a14}
+.search-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem}
+.stag{background:var(--cream);font-family:'DM Mono',monospace;font-size:.66rem;padding:.28rem .72rem;letter-spacing:1px;cursor:none;transition:all .2s;text-transform:uppercase}
+.stag:hover,.stag.active{background:var(--accent);color:white}
+.jobs-layout{display:grid;grid-template-columns:265px 1fr;min-height:65vh}
+.filter-sidebar{background:white;padding:1.8rem;border-right:1px solid var(--border);overflow-y:auto}
+.filter-section{margin-bottom:1.8rem;padding-bottom:1.8rem;border-bottom:1px solid var(--cream)}
+.filter-section:last-child{border:none}
+.filter-title{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
+.filter-option{display:flex;align-items:center;gap:.6rem;margin-bottom:.65rem;cursor:none}
+.filter-option input[type=checkbox]{accent-color:var(--accent);width:13px;height:13px;cursor:none}
+.filter-option label{font-size:.83rem;cursor:none;display:flex;justify-content:space-between;width:100%}
+.filter-count{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted)}
+.jobs-main{padding:1.8rem;background:var(--light)}
+.jobs-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.3rem}
+.jobs-count{font-family:'DM Mono',monospace;font-size:.73rem;color:var(--muted);letter-spacing:1px}
+.sort-row{display:flex;gap:.7rem}
+.sort-btn{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1px;text-transform:uppercase;padding:.32rem .75rem;background:transparent;border:1px solid var(--cream);cursor:none;color:var(--muted);transition:all .2s}
+.sort-btn:hover,.sort-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.ai-banner{background:var(--ink);color:var(--paper);padding:1.3rem 1.8rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;margin-bottom:1.3rem}
+.ai-banner p{font-size:.85rem;line-height:1.5}
+.ai-banner strong{color:var(--gold)}
+.job-card{background:white;margin-bottom:.9rem;padding:1.6rem;border:1px solid var(--cream);display:grid;grid-template-columns:1fr auto;gap:1rem;transition:box-shadow .2s,transform .2s;cursor:none;position:relative}
+.job-card:hover{box-shadow:5px 5px 0 var(--gold);transform:translate(-2px,-2px)}
+.job-card.featured{border-top:3px solid var(--accent)}
+.featured-badge{position:absolute;top:.8rem;right:.8rem;background:var(--accent);color:white;font-family:'DM Mono',monospace;font-size:.58rem;padding:.18rem .5rem;letter-spacing:1px;text-transform:uppercase}
+.job-meta{display:flex;align-items:flex-start;gap:.9rem}
+.job-logo{width:42px;height:42px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.job-title{font-size:.95rem;font-weight:600;margin-bottom:.25rem}
+.job-company{font-size:.8rem;color:var(--muted);margin-bottom:.4rem}
+.job-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.4rem}
+.job-tag{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.5px;padding:.18rem .48rem;background:var(--cream);text-transform:uppercase}
+.job-tag.hot{background:rgba(200,52,26,.1);color:var(--accent)}
+.job-loc{font-size:.76rem;color:var(--muted);font-family:'DM Mono',monospace}
+.job-right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between}
+.job-salary{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;color:var(--accent);line-height:1}
+.job-salary-unit{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted);margin-top:2px}
+.job-match{display:flex;align-items:center;gap:.35rem;font-family:'DM Mono',monospace;font-size:.62rem;color:var(--success);margin-top:.4rem}
+.match-dot{width:5px;height:5px;border-radius:50%;background:var(--success)}
+.job-date{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted);margin-top:.4rem}
+.apply-btn{padding:.55rem 1.1rem;background:var(--ink);color:var(--paper);border:none;font-family:'Noto Serif SC',serif;font-size:.78rem;cursor:none;transition:background .2s;margin-top:.7rem}
+.apply-btn:hover{background:var(--accent)}
+.load-more{display:block;width:100%;padding:.9rem;background:transparent;border:1.5px solid var(--ink);font-family:'Noto Serif SC',serif;font-size:.85rem;cursor:none;margin-top:1.3rem;transition:all .2s;letter-spacing:1px}
+.load-more:hover{background:var(--ink);color:var(--paper)}
+
+/* ============================================================
+   PAGE 4: BOOKING
+   ============================================================ */
+.booking-hero{padding:4rem 5rem 3.5rem;background:var(--cream);display:grid;grid-template-columns:1fr 1fr;gap:4rem}
+.booking-hero h1{font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:700;line-height:1.15;margin-bottom:1rem}
+.booking-hero p{font-size:.9rem;color:var(--muted);line-height:1.8}
+.guarantee{display:flex;gap:.8rem;align-items:center;margin-top:1.5rem;background:white;padding:1rem 1.2rem;border-left:3px solid var(--success)}
+.guarantee-icon{font-size:1.4rem}
+.guarantee p{font-size:.8rem;color:var(--ink);margin:0}
+.booking-main{display:grid;grid-template-columns:1fr 1.1fr;gap:3rem;padding:4rem 5rem}
+.adv-card{background:white;padding:1.4rem;border:1.5px solid var(--cream);margin-bottom:.9rem;display:grid;grid-template-columns:60px 1fr;gap:.9rem;cursor:none;transition:all .2s;position:relative}
+.adv-card:hover{border-color:var(--accent);box-shadow:4px 4px 0 var(--gold);transform:translate(-1px,-1px)}
+.adv-card.selected{border-color:var(--accent);background:#fff8f6}
+.adv-card.selected::after{content:'✓ 已选';position:absolute;top:.65rem;right:.65rem;background:var(--accent);color:white;font-family:'DM Mono',monospace;font-size:.58rem;padding:.18rem .48rem;letter-spacing:1px}
+.adv-avatar{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:white}
+.adv-name{font-size:.95rem;font-weight:600;margin-bottom:2px}
+.adv-title{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--accent);letter-spacing:1px;text-transform:uppercase}
+.adv-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin:.4rem 0}
+.adv-tag{background:var(--cream);font-family:'DM Mono',monospace;font-size:.58rem;padding:.14rem .48px;letter-spacing:.5px}
+.adv-stats{display:flex;gap:.9rem;margin-top:.4rem}
+.adv-stat{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted)}
+.adv-stat strong{color:var(--ink)}
+.stars{color:var(--gold);font-size:.76rem}
+.adv-bio{font-size:.76rem;color:var(--muted);margin-top:.35rem}
+.step-indicator{display:flex;margin-bottom:1.8rem}
+.step-ind{flex:1;padding:.65rem;text-align:center;font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;background:var(--cream);color:var(--muted);border-right:2px solid var(--paper);transition:all .3s}
+.step-ind.active{background:var(--accent);color:white}
+.step-ind.done{background:var(--success);color:white}
+.step-ind:last-child{border:none}
+.form-card{background:white;padding:1.8rem;border:1px solid var(--cream)}
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem}
+.cal-nav{background:none;border:1px solid var(--cream);padding:.28rem .65rem;cursor:none;font-size:.95rem;transition:background .2s}
+.cal-nav:hover{background:var(--cream)}
+.cal-month{font-weight:600;font-size:.9rem}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-day-name{text-align:center;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:1px;color:var(--muted);padding:.45rem 0}
+.cal-day{text-align:center;padding:.5rem 0;font-size:.8rem;cursor:none;transition:all .2s;border:1px solid transparent}
+.cal-day:hover:not(.disabled):not(.empty){background:var(--cream)}
+.cal-day.today{font-weight:700;color:var(--accent)}
+.cal-day.selected{background:var(--accent);color:white;border-color:var(--accent)}
+.cal-day.disabled{color:var(--cream);cursor:not-allowed}
+.cal-day.empty{pointer-events:none}
+.cal-day.available{border-color:rgba(200,52,26,.2)}
+.time-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem;margin-top:.9rem}
+.slot-card{padding:.55rem;border:1.5px solid var(--cream);text-align:center;font-family:'DM Mono',monospace;font-size:.72rem;cursor:none;transition:all .2s}
+.slot-card:hover:not(.booked){border-color:var(--accent);color:var(--accent)}
+.slot-card.selected{background:var(--accent);color:white;border-color:var(--accent)}
+.slot-card.booked{background:var(--cream);color:var(--muted);font-size:.62rem}
+.service-options{display:flex;flex-direction:column;gap:.65rem;margin-bottom:1.3rem}
+.service-opt{display:flex;align-items:flex-start;gap:.75rem;padding:.9rem;border:1.5px solid var(--cream);cursor:none;transition:all .2s}
+.service-opt:hover{border-color:var(--accent)}
+.service-opt input[type=radio]{accent-color:var(--accent);margin-top:3px}
+.service-opt-info h4{font-size:.87rem;font-weight:600;margin-bottom:2px}
+.service-opt-info p{font-size:.76rem;color:var(--muted)}
+.service-price{margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--accent);flex-shrink:0}
+.free-tag{background:var(--success);color:white;font-family:'DM Mono',monospace;font-size:.58rem;padding:.1rem .4rem;letter-spacing:1px}
+.confirm-panel{background:var(--cream);padding:1.3rem;margin-bottom:1.3rem}
+.confirm-row{display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid rgba(0,0,0,.05);font-size:.83rem}
+.confirm-row:last-child{border:none;font-weight:600}
+.step-btns{display:flex;gap:.7rem;margin-top:1.3rem}
+.step-btns button{flex:1}
+.booking-success{display:none;text-align:center;padding:2.5rem 2rem}
+.booking-success.show{display:block}
+
+/* ============================================================
+   PAGE 5: LOGIN
+   ============================================================ */
+.login-page{min-height:calc(100vh - 72px);display:grid;grid-template-columns:1fr 1fr}
+.login-left{background:var(--accent);display:flex;flex-direction:column;justify-content:center;padding:5rem 4rem;position:relative;overflow:hidden}
+.login-left::before{content:'CAREER';font-family:'Bebas Neue',sans-serif;font-size:14rem;color:rgba(0,0,0,.1);position:absolute;bottom:-2rem;left:-2rem;line-height:1;pointer-events:none}
+.login-left h2{color:white;font-size:clamp(1.8rem,3vw,2.4rem);font-weight:700;line-height:1.2;margin-bottom:1.1rem;position:relative;z-index:1}
+.login-left p{color:rgba(255,255,255,.75);font-size:.87rem;line-height:1.8;max-width:380px;position:relative;z-index:1}
+.left-pts{margin-top:2.2rem;display:flex;flex-direction:column;gap:.9rem;position:relative;z-index:1}
+.left-pt{display:flex;align-items:center;gap:.75rem}
+.lp-chk{width:22px;height:22px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:white;font-size:.75rem;flex-shrink:0}
+.left-pt span{color:rgba(255,255,255,.85);font-size:.85rem}
+.login-right{background:var(--paper);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:4rem 3rem}
+.form-container{width:100%;max-width:410px}
+.tab-row{display:flex;margin-bottom:2.2rem;border-bottom:2px solid var(--cream)}
+.tab{flex:1;padding:.85rem;text-align:center;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;cursor:none;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.form-title{font-size:1.45rem;font-weight:700;margin-bottom:.3rem}
+.form-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.8rem}
+.pw-field{position:relative}
+.pw-field input{padding-right:3rem}
+.pw-toggle{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);cursor:none;color:var(--muted);font-size:.83rem;background:none;border:none}
+.strength-bar{height:3px;background:var(--cream);margin-top:.35rem}
+.strength-fill{height:100%;transition:width .3s,background .3s;width:0}
+.strength-label{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted);margin-top:2px}
+.check-row{display:flex;gap:.55rem;align-items:flex-start;margin-bottom:1.3rem}
+.check-row input{accent-color:var(--accent);margin-top:3px;flex-shrink:0}
+.check-row label{font-size:.78rem;color:var(--muted);line-height:1.5}
+.check-row a{color:var(--accent);text-decoration:none}
+.submit-btn{width:100%;padding:.95rem;background:var(--accent);color:white;border:none;font-family:'Noto Serif SC',serif;font-size:.92rem;letter-spacing:1px;cursor:none;transition:background .2s,transform .2s}
+.submit-btn:hover{background:#a02a14;transform:translateY(-1px)}
+.divider{display:flex;align-items:center;gap:1rem;margin:1.4rem 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--cream)}
+.divider span{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.social-btns{display:flex;gap:.7rem}
+.social-btn{flex:1;padding:.75rem;background:white;border:1.5px solid var(--cream);display:flex;align-items:center;justify-content:center;gap:.5rem;cursor:none;font-size:.78rem;transition:border-color .2s}
+.social-btn:hover{border-color:var(--ink)}
+.switch-text{text-align:center;margin-top:1.3rem;font-size:.8rem;color:var(--muted)}
+.switch-text a{color:var(--accent);text-decoration:none;cursor:none}
+.forgot-link{text-align:right;font-family:'DM Mono',monospace;font-size:.62rem;color:var(--accent);text-decoration:none;display:block;margin-top:-.7rem;margin-bottom:1.1rem;cursor:none}
+.code-field{display:grid;grid-template-columns:1fr auto;gap:.5rem}
+.code-btn{padding:0 .9rem;background:var(--ink);color:var(--paper);border:none;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:1px;cursor:none;white-space:nowrap;transition:background .2s}
+.code-btn:hover{background:var(--accent)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+
+/* SUCCESS OVERLAY */
+.success-ov{display:none;position:fixed;inset:0;background:var(--paper);z-index:1000;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.success-ov.show{display:flex}
+.success-big{font-size:5rem;margin-bottom:1rem}
+.success-ov h2{font-size:1.9rem;font-weight:700;margin-bottom:.5rem}
+.success-ov p{color:var(--muted);margin-bottom:1.8rem}
+.prog-bar{width:280px;height:4px;background:var(--cream);overflow:hidden}
+.prog-fill{height:100%;background:var(--accent);animation:prog 2.2s ease forwards}
+@keyframes prog{from{width:0}to{width:100%}}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:960px){
+  nav{padding:1rem 1.5rem}
+  nav ul{display:none}
+  .hero{grid-template-columns:1fr}
+  .hero-right,.hero-bg-text{display:none}
+  .hero-left{padding:3rem 1.5rem}
+  .home-services,.home-why,.home-tests,.cta-strip{padding:4rem 1.5rem}
+  .sv-grid{grid-template-columns:1fr}
+  .home-why{grid-template-columns:1fr}
+  .resume-hero,.tool-wrap,.how-section{padding:3rem 1.5rem}
+  .resume-hero{grid-template-columns:1fr}
+  .tool-wrap{grid-template-columns:1fr}
+  .how-grid{grid-template-columns:1fr 1fr}
+  .jobs-search-hero{padding:2.5rem 1.5rem}
+  .jobs-layout{grid-template-columns:1fr}
+  .filter-sidebar{display:none}
+  .jobs-main{padding:1.5rem}
+  .booking-hero,.booking-main{grid-template-columns:1fr;padding:3rem 1.5rem}
+  .login-page{grid-template-columns:1fr}
+  .login-left{display:none}
+  .login-right{padding:3rem 1.5rem}
+  footer{padding:3rem 1.5rem 1.5rem}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+</style>
 </head>
 <body>
-    <h1>Welcome to Career Path</h1>
-    <p>Your journey to success begins here.</p>
-    <!-- Add more HTML content for the CareerPath website -->
+<div id="cursor"></div>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <a class="logo" onclick="navigate('home')" style="cursor:none">职引 <span>·</span> CAREER</a>
+  <ul>
+    <li><a onclick="navigate('resume')" id="nav-resume">简历诊断</a></li>
+    <li><a onclick="navigate('jobs')" id="nav-jobs">职位搜索</a></li>
+    <li><a onclick="navigate('booking')" id="nav-booking">预约顾问</a></li>
+    <li><a onclick="navigate('login')" id="nav-login" class="nav-btn">登录 / 注册</a></li>
+  </ul>
+</nav>
+
+<!-- ================================================================
+     PAGE: HOME
+     ================================================================ -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <div class="hero-bg-text">HIRED</div>
+    <div class="hero-left reveal">
+      <div class="hero-tag">专业求职辅助平台</div>
+      <h1 class="hero-h1">下一份工作，<br>从<em>这里</em>开始</h1>
+      <p class="hero-sub">简历优化、面试训练、薪资谈判——全链路陪伴，让每一次投递都不再迷茫。</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="navigate('resume')">免费诊断简历</button>
+        <button class="btn btn-outline" onclick="navigate('jobs')">浏览职位 →</button>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num">98<span>%</span></div><div class="stat-label">面试通过率</div></div>
+        <div><div class="stat-num">2.4<span>万+</span></div><div class="stat-label">成功案例</div></div>
+        <div><div class="stat-num">43<span>%</span></div><div class="stat-label">平均薪资涨幅</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="float-chip chip1">✓ 简历已优化</div>
+      <div class="float-chip chip2">🎯 获面试邀请 ×3</div>
+      <div class="resume-card">
+        <div class="score-badge">92<br><small>SCORE</small></div>
+        <div class="rc-head">
+          <div class="rc-avatar">张</div>
+          <div><h3>张晓明</h3><p>Product Manager</p></div>
+        </div>
+        <div class="rc-row"><div class="rc-lbl">简历得分</div><div class="bar"><div class="bar-fill" style="width:92%"></div></div></div>
+        <div class="rc-row"><div class="rc-lbl">关键词匹配</div><div class="bar"><div class="bar-fill" style="width:87%;animation-delay:.3s"></div></div></div>
+        <div class="rc-row"><div class="rc-lbl">格式规范</div><div class="bar"><div class="bar-fill" style="width:95%;animation-delay:.6s"></div></div></div>
+        <div class="rc-row"><div class="rc-lbl">项目亮点</div><div class="bar"><div class="bar-fill" style="width:84%;animation-delay:.9s"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-services">
+    <div class="section-label">核心服务</div>
+    <h2 class="section-title reveal" style="color:var(--paper)">全链路求职<br>支持体系</h2>
+    <div class="sv-grid">
+      <div class="sv reveal"><div class="sv-num">01</div><div class="sv-icon">📄</div><h3>简历深度优化</h3><p>资深HR逐行审阅，ATS关键词精准匹配，简历通过率提升300%。</p><span class="sv-lnk" onclick="navigate('resume')">立即诊断 →</span></div>
+      <div class="sv reveal"><div class="sv-num">02</div><div class="sv-icon">🎯</div><h3>面试实战训练</h3><p>1对1模拟面试，行为/技术/case全覆盖，录像回放即时反馈。</p><span class="sv-lnk" onclick="navigate('booking')">预约训练 →</span></div>
+      <div class="sv reveal"><div class="sv-num">03</div><div class="sv-icon">💼</div><h3>求职策略规划</h3><p>个性化路线图，行业选择到投递节奏，避坑直达目标。</p><span class="sv-lnk" onclick="navigate('booking')">免费咨询 →</span></div>
+      <div class="sv reveal"><div class="sv-num">04</div><div class="sv-icon">💰</div><h3>薪资谈判辅导</h3><p>掌握市场数据，学习谈判话术，平均多争取43%涨幅。</p><span class="sv-lnk" onclick="navigate('booking')">了解更多 →</span></div>
+      <div class="sv reveal"><div class="sv-num">05</div><div class="sv-icon">🔍</div><h3>职位智能匹配</h3><p>AI分析你的背景，精准推荐匹配度最高的岗位，省时省力。</p><span class="sv-lnk" onclick="navigate('jobs')">浏览职位 →</span></div>
+      <div class="sv reveal"><div class="sv-num">06</div><div class="sv-icon">🧭</div><h3>职业转型咨询</h3><p>识别可迁移技能，制定转型路径，降低行业切换风险。</p><span class="sv-lnk" onclick="navigate('booking')">预约咨询 →</span></div>
+    </div>
+  </section>
+
+  <section class="home-why">
+    <div>
+      <div class="section-label">为什么选择我们</div>
+      <h2 class="section-title reveal">不只是给建议，<br>更是陪你拿到offer</h2>
+      <div class="why-pts">
+        <div class="why-pt reveal"><div class="why-ic">🏆</div><div><h4>资深顾问团队</h4><p>全部来自BAT/麦肯锡/华为，平均8年招聘与职业规划经验。</p></div></div>
+        <div class="why-pt reveal"><div class="why-ic">⚡</div><div><h4>48小时快速交付</h4><p>简历优化、面试方案，最快48小时完成，不耽误求职节奏。</p></div></div>
+        <div class="why-pt reveal"><div class="why-ic">🤝</div><div><h4>拿到offer才收费</h4><p>效果付费模式，没拿到理想offer全额退款，风险为零。</p></div></div>
+        <div class="why-pt reveal"><div class="why-ic">📊</div><div><h4>数据驱动优化</h4><p>AI+人工双重分析，每一条建议都有数据支撑。</p></div></div>
+      </div>
+    </div>
+    <div class="why-vis reveal">
+      <div class="why-big">43%</div>
+      <div class="why-big-lbl">平均薪资涨幅</div>
+      <div class="why-big-sub">基于2024年2,400+成功案例统计</div>
+      <div class="why-rows">
+        <div class="why-row"><span style="color:var(--muted)">产品经理</span><span>+51%</span></div>
+        <div class="why-row"><span style="color:var(--muted)">软件工程师</span><span>+47%</span></div>
+        <div class="why-row"><span style="color:var(--muted)">数据分析师</span><span>+38%</span></div>
+        <div class="why-row"><span style="color:var(--muted)">市场营销</span><span>+35%</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-tests">
+    <div class="section-label">真实案例</div>
+    <h2 class="section-title reveal">他们都成功了</h2>
+    <div class="ttrack-wrap"><div class="ttrack" id="ttrack">
+      <div class="tcard"><div class="tquote">"</div><p class="ttext">投了六个月没回音，找了职引两周就拿到腾讯面试，最终薪资涨了60%！</p><div class="tauthor"><div class="tavatar">李</div><div><div class="tname">李雨桐</div><div class="trole">→ 腾讯高级PM</div></div></div></div>
+      <div class="tcard"><div class="tquote">"</div><p class="ttext">从银行跨行转互联网，顾问帮我梳理了可迁移技能，成功拿到字节offer。</p><div class="tauthor"><div class="tavatar">王</div><div><div class="tname">王子轩</div><div class="trole">→ 字节数据分析师</div></div></div></div>
+      <div class="tcard"><div class="tquote">"</div><p class="ttext">面试训练让我克服紧张，STAR回答信手拈来，一举拿下阿里SP。</p><div class="tauthor"><div class="tavatar">陈</div><div><div class="tname">陈诗雨</div><div class="trole">→ 阿里SP offer</div></div></div></div>
+      <div class="tcard"><div class="tquote">"</div><p class="ttext">顾问建议我再谈一次，结果多拿了3万年终奖和额外股票，太值了！</p><div class="tauthor"><div class="tavatar">赵</div><div><div class="tname">赵明远</div><div class="trole">→ 美团L7工程师</div></div></div></div>
+      <div class="tcard"><div class="tquote">"</div><p class="ttext">海归回国三个月同时拿到McKinsey和BCG的offer，职引功不可没。</p><div class="tauthor"><div class="tavatar">孙</div><div><div class="tname">孙晓彤</div><div class="trole">→ McKinsey咨询顾问</div></div></div></div>
+      <div class="tcard"><div class="tquote">"</div><p class="ttext">投了六个月没回音，找了职引两周就拿到腾讯面试，最终薪资涨了60%！</p><div class="tauthor"><div class="tavatar">李</div><div><div class="tname">李雨桐</div><div class="trole">→ 腾讯高级PM</div></div></div></div>
+      <div class="tcard"><div class="tquote">"</div><p class="ttext">从银行跨行转互联网，顾问帮我梳理了可迁移技能，成功拿到字节offer。</p><div class="tauthor"><div class="tavatar">王</div><div><div class="tname">王子轩</div><div class="trole">→ 字节数据分析师</div></div></div></div>
+      <div class="tcard"><div class="tquote">"</div><p class="ttext">面试训练让我克服紧张，STAR回答信手拈来，一举拿下阿里SP。</p><div class="tauthor"><div class="tavatar">陈</div><div><div class="tname">陈诗雨</div><div class="trole">→ 阿里SP offer</div></div></div></div>
+      <div class="tcard"><div class="tquote">"</div><p class="ttext">顾问建议我再谈一次，结果多拿了3万年终奖和额外股票，太值了！</p><div class="tauthor"><div class="tavatar">赵</div><div><div class="tname">赵明远</div><div class="trole">→ 美团L7工程师</div></div></div></div>
+      <div class="tcard"><div class="tquote">"</div><p class="ttext">海归回国三个月同时拿到McKinsey和BCG的offer，职引功不可没。</p><div class="tauthor"><div class="tavatar">孙</div><div><div class="tname">孙晓彤</div><div class="trole">→ McKinsey咨询顾问</div></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="cta-strip">
+    <h2>准备好了吗？</h2>
+    <p>免费提交简历，48小时内获得专业诊断报告</p>
+    <div class="cta-row">
+      <input type="email" placeholder="输入你的邮箱地址">
+      <button onclick="navigate('resume')">立即开始</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><span class="logo" onclick="navigate('home')" style="cursor:none">职引 · CAREER</span><p style="margin-top:.8rem">帮助每一位求职者找到理想工作，让努力都值得。</p></div>
+      <div class="footer-col"><h4>功能</h4><ul><li><a onclick="navigate('resume')">简历诊断</a></li><li><a onclick="navigate('jobs')">职位搜索</a></li><li><a onclick="navigate('booking')">预约顾问</a></li></ul></div>
+      <div class="footer-col"><h4>关于</h4><ul><li><a href="#">团队介绍</a></li><li><a href="#">成功案例</a></li><li><a href="#">加入我们</a></li></ul></div>
+      <div class="footer-col"><h4>支持</h4><ul><li><a onclick="navigate('login')">登录注册</a></li><li><a href="#">隐私政策</a></li><li><a href="#">服务条款</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 职引 CareerPath</span><span>让每一次求职都有底气</span></div>
+  </footer>
+</div>
+
+<!-- ================================================================
+     PAGE: RESUME
+     ================================================================ -->
+<div class="page" id="page-resume">
+  <div class="resume-hero">
+    <div>
+      <div class="section-label">AI 简历诊断</div>
+      <h1>30秒，知道你的<br>简历差在哪里</h1>
+      <p>上传简历，AI即时分析6大维度，给出量化得分与改进建议，帮你精准提升。</p>
+      <div class="hero-badges">
+        <span class="badge">⚡ 30秒出结果</span>
+        <span class="badge">🤖 AI+人工双审</span>
+        <span class="badge">✓ 完全免费</span>
+      </div>
+    </div>
+    <div class="hero-stats-grid">
+      <div class="hsg-item"><div class="hsg-num" style="color:var(--accent)">92分</div><div class="hsg-lbl">优化后平均分</div></div>
+      <div class="hsg-item"><div class="hsg-num" style="color:var(--gold)">62分</div><div class="hsg-lbl">优化前平均分</div></div>
+      <div class="hsg-item"><div class="hsg-num" style="color:var(--paper)">3×</div><div class="hsg-lbl">面试邀请提升</div></div>
+      <div class="hsg-item"><div class="hsg-num" style="color:var(--paper)">2万+</div><div class="hsg-lbl">已诊断简历</div></div>
+    </div>
+  </div>
+
+  <div class="tool-wrap">
+    <div class="upload-panel reveal">
+      <div><div class="section-label">上传简历</div><h2 style="font-size:1.4rem;font-weight:600;margin-bottom:.4rem">开始诊断</h2><p style="font-size:.83rem;color:var(--muted)">支持PDF、Word格式，或直接粘贴简历文字</p></div>
+      <div class="upload-zone" id="dropZone">
+        <input type="file" accept=".pdf,.doc,.docx" id="fileInput">
+        <div class="upload-icon">📋</div>
+        <h3>拖拽文件至此，或点击上传</h3>
+        <p>支持 PDF、DOC、DOCX 格式，最大 10MB</p>
+        <div class="upload-types"><span class="tag-chip">PDF</span><span class="tag-chip">DOC</span><span class="tag-chip">DOCX</span></div>
+      </div>
+      <div class="or-divider">或者粘贴简历文字</div>
+      <textarea id="resumeText" style="width:100%;height:180px;padding:1rem;border:1.5px solid var(--cream);font-family:'Noto Serif SC',serif;font-size:.85rem;line-height:1.7;resize:none;outline:none;transition:border-color .2s" placeholder="将简历内容粘贴于此...&#10;&#10;姓名：张晓明&#10;目标职位：产品经理&#10;工作经历：..."></textarea>
+      <div class="field"><label>目标岗位（选填）</label><select><option value="">请选择</option><option>产品经理</option><option>软件工程师</option><option>数据分析师</option><option>市场营销</option><option>运营专员</option><option>设计师</option></select></div>
+      <button class="analyze-btn" onclick="runAnalysis()">🔍 开始智能诊断</button>
+    </div>
+
+    <div class="result-wrap">
+      <div id="r-placeholder" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;background:white;border:1.5px dashed var(--cream);text-align:center;padding:3rem">
+        <div style="font-size:3.5rem;margin-bottom:1rem">🎯</div>
+        <div style="font-size:1rem;font-weight:600;margin-bottom:.5rem">等待诊断中</div>
+        <div style="font-size:.8rem;color:var(--muted);line-height:1.7">上传或粘贴你的简历，<br>AI将在30秒内给出详细分析报告</div>
+      </div>
+      <div class="loading-ov" id="loadingPanel">
+        <div class="loader"></div>
+        <div class="loading-txt" id="loadingText">正在解析简历结构...</div>
+      </div>
+      <div class="result-panel" id="resultPanel">
+        <div class="score-hero-box">
+          <div class="score-circle" style="--pct:76" id="scoreCircle"><span id="scoreNum">76</span></div>
+          <div class="score-label">综合得分</div>
+          <div class="score-title">良好 — 有较大提升空间</div>
+        </div>
+        <div class="dims-grid">
+          <div class="dim-card warn"><div class="dim-name">内容完整度</div><div class="dim-score">68</div><div class="dim-bar"><div class="dim-bar-fill" style="width:68%"></div></div></div>
+          <div class="dim-card good"><div class="dim-name">格式规范</div><div class="dim-score">88</div><div class="dim-bar"><div class="dim-bar-fill" style="width:88%"></div></div></div>
+          <div class="dim-card warn"><div class="dim-name">关键词匹配</div><div class="dim-score">72</div><div class="dim-bar"><div class="dim-bar-fill" style="width:72%"></div></div></div>
+          <div class="dim-card good"><div class="dim-name">量化成果</div><div class="dim-score">81</div><div class="dim-bar"><div class="dim-bar-fill" style="width:81%"></div></div></div>
+          <div class="dim-card"><div class="dim-name">ATS兼容性</div><div class="dim-score" style="color:var(--accent)">65</div><div class="dim-bar"><div class="dim-bar-fill" style="width:65%"></div></div></div>
+          <div class="dim-card good"><div class="dim-name">职业逻辑</div><div class="dim-score">84</div><div class="dim-bar"><div class="dim-bar-fill" style="width:84%"></div></div></div>
+        </div>
+        <div class="advice-list">
+          <h4>📋 改进建议（按优先级）</h4>
+          <div class="advice-item"><div class="advice-dot dot-r"></div><div><strong>高：</strong>简历缺少核心技能标签，建议加入"技能摘要"版块，包含"用户增长""数据驱动"等关键词。</div></div>
+          <div class="advice-item"><div class="advice-dot dot-r"></div><div><strong>高：</strong>工作经历成果不够量化，建议改写为"通过X策略，带来Y%的增长"格式。</div></div>
+          <div class="advice-item"><div class="advice-dot dot-y"></div><div><strong>中：</strong>ATS扫描不友好，发现特殊字符和复杂表格，建议转为纯文字格式。</div></div>
+          <div class="advice-item"><div class="advice-dot dot-g"></div><div><strong>保持：</strong>教育背景格式清晰，时间线逻辑连贯，职业发展路径清晰。</div></div>
+        </div>
+        <div class="result-cta">
+          <button class="btn btn-primary" onclick="navigate('booking')">预约专业优化</button>
+          <button class="btn btn-outline" onclick="navigate('jobs')">匹配适合职位</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="how-section">
+    <div class="section-label">诊断流程</div>
+    <h2 class="section-title reveal">AI如何分析你的简历</h2>
+    <div class="how-grid">
+      <div class="how-step reveal"><div class="how-num">01</div><h4>结构解析</h4><p>识别简历各板块，提取关键信息与职业脉络。</p></div>
+      <div class="how-step reveal"><div class="how-num">02</div><h4>关键词匹配</h4><p>对比10万+岗位JD，检测目标岗位关键词覆盖率。</p></div>
+      <div class="how-step reveal"><div class="how-num">03</div><h4>量化分析</h4><p>评估数据点密度，衡量成果描述的说服力。</p></div>
+      <div class="how-step reveal"><div class="how-num">04</div><h4>输出报告</h4><p>生成优先级改进清单，提供具体可执行的修改建议。</p></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><span class="logo" onclick="navigate('home')" style="cursor:none">职引 · CAREER</span><p style="margin-top:.8rem">帮助每一位求职者找到理想工作。</p></div>
+      <div class="footer-col"><h4>功能</h4><ul><li><a onclick="navigate('resume')">简历诊断</a></li><li><a onclick="navigate('jobs')">职位搜索</a></li><li><a onclick="navigate('booking')">预约顾问</a></li></ul></div>
+      <div class="footer-col"><h4>关于</h4><ul><li><a href="#">团队介绍</a></li><li><a href="#">成功案例</a></li></ul></div>
+      <div class="footer-col"><h4>支持</h4><ul><li><a onclick="navigate('login')">登录注册</a></li><li><a href="#">隐私政策</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 职引 CareerPath</span><span>让每一次求职都有底气</span></div>
+  </footer>
+</div>
+
+<!-- ================================================================
+     PAGE: JOBS
+     ================================================================ -->
+<div class="page" id="page-jobs">
+  <div class="jobs-search-hero">
+    <div class="section-label">智能职位匹配</div>
+    <h1>找到最<span>适合你</span>的工作</h1>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="搜索职位、公司、技能关键词..." value="产品经理">
+      <select><option>全国</option><option>北京</option><option>上海</option><option>深圳</option><option>杭州</option><option>成都</option></select>
+      <button onclick="doSearch()">🔍 搜索</button>
+    </div>
+    <div class="search-tags">
+      <span class="stag active" onclick="setTag(this,'产品经理')">产品经理</span>
+      <span class="stag" onclick="setTag(this,'软件工程师')">软件工程师</span>
+      <span class="stag" onclick="setTag(this,'数据分析')">数据分析</span>
+      <span class="stag" onclick="setTag(this,'市场营销')">市场营销</span>
+      <span class="stag" onclick="setTag(this,'UI设计师')">UI设计师</span>
+      <span class="stag" onclick="setTag(this,'运营专员')">运营专员</span>
+    </div>
+  </div>
+
+  <div class="jobs-layout">
+    <aside class="filter-sidebar">
+      <div class="filter-section">
+        <div class="filter-title">公司类型</div>
+        <div class="filter-option"><input type="checkbox" checked id="f1"><label for="f1">互联网 <span class="filter-count">238</span></label></div>
+        <div class="filter-option"><input type="checkbox" checked id="f2"><label for="f2">外资企业 <span class="filter-count">92</span></label></div>
+        <div class="filter-option"><input type="checkbox" id="f3"><label for="f3">国企央企 <span class="filter-count">45</span></label></div>
+        <div class="filter-option"><input type="checkbox" id="f4"><label for="f4">初创公司 <span class="filter-count">167</span></label></div>
+        <div class="filter-option"><input type="checkbox" id="f5"><label for="f5">咨询/金融 <span class="filter-count">73</span></label></div>
+      </div>
+      <div class="filter-section">
+        <div class="filter-title">工作经验</div>
+        <div class="filter-option"><input type="checkbox" id="e1"><label for="e1">应届生</label></div>
+        <div class="filter-option"><input type="checkbox" checked id="e2"><label for="e2">1-3年</label></div>
+        <div class="filter-option"><input type="checkbox" checked id="e3"><label for="e3">3-5年</label></div>
+        <div class="filter-option"><input type="checkbox" id="e4"><label for="e4">5年以上</label></div>
+      </div>
+      <div class="filter-section">
+        <div class="filter-title">工作方式</div>
+        <div class="filter-option"><input type="checkbox" checked id="w1"><label for="w1">全职</label></div>
+        <div class="filter-option"><input type="checkbox" id="w2"><label for="w2">远程/混合</label></div>
+        <div class="filter-option"><input type="checkbox" id="w3"><label for="w3">实习</label></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:.8rem">应用筛选</button>
+      <button class="btn btn-outline" style="width:100%;margin-top:.5rem">重置</button>
+    </aside>
+
+    <main class="jobs-main">
+      <div class="ai-banner">
+        <p>🤖 <strong>AI匹配提示：</strong>根据你的简历，以下职位与你的背景匹配度最高。<span onclick="navigate('resume')" style="color:var(--gold);cursor:none">上传简历</span>获得更精准推荐。</p>
+        <button class="btn btn-gold" onclick="navigate('resume')" style="white-space:nowrap;flex-shrink:0;padding:.65rem 1.3rem">上传简历</button>
+      </div>
+      <div class="jobs-header">
+        <div class="jobs-count">找到 <strong>342</strong> 个相关职位</div>
+        <div class="sort-row">
+          <button class="sort-btn active" onclick="setSortActive(this)">最新发布</button>
+          <button class="sort-btn" onclick="setSortActive(this)">匹配度</button>
+          <button class="sort-btn" onclick="setSortActive(this)">薪资最高</button>
+        </div>
+      </div>
+      <div id="jobList">
+        <div class="job-card featured reveal">
+          <span class="featured-badge">⭐ 推荐</span>
+          <div class="job-meta"><div class="job-logo" style="background:#fff3e0">🔮</div><div class="job-info"><div class="job-title">高级产品经理 · AI产品方向</div><div class="job-company">字节跳动 · 北京</div><div class="job-tags"><span class="job-tag hot">热招</span><span class="job-tag">AI/ML</span><span class="job-tag">用户增长</span></div><div class="job-loc">📍 北京 · 本科及以上 · 3-5年</div></div></div>
+          <div class="job-right"><div><div class="job-salary">35-55K</div><div class="job-salary-unit">月薪 · 15薪</div></div><div class="job-match"><div class="match-dot"></div>匹配度 94%</div><div class="job-date">今日更新</div><button class="apply-btn" onclick="applyJob(this)">立即投递</button></div>
+        </div>
+        <div class="job-card reveal">
+          <div class="job-meta"><div class="job-logo" style="background:#e8f5e9">🌊</div><div class="job-info"><div class="job-title">产品经理（消费级产品）</div><div class="job-company">腾讯 · 深圳</div><div class="job-tags"><span class="job-tag hot">急招</span><span class="job-tag">C端产品</span><span class="job-tag">社交</span></div><div class="job-loc">📍 深圳 · 本科及以上 · 2-4年</div></div></div>
+          <div class="job-right"><div><div class="job-salary">28-45K</div><div class="job-salary-unit">月薪 · 16薪</div></div><div class="job-match"><div class="match-dot"></div>匹配度 88%</div><div class="job-date">2天前</div><button class="apply-btn" onclick="applyJob(this)">立即投递</button></div>
+        </div>
+        <div class="job-card reveal">
+          <div class="job-meta"><div class="job-logo" style="background:#fce4ec">🛍️</div><div class="job-info"><div class="job-title">商业产品经理</div><div class="job-company">阿里巴巴 · 杭州</div><div class="job-tags"><span class="job-tag">电商</span><span class="job-tag">B端产品</span><span class="job-tag">商业化</span></div><div class="job-loc">📍 杭州 · 本科及以上 · 3-6年</div></div></div>
+          <div class="job-right"><div><div class="job-salary">30-50K</div><div class="job-salary-unit">月薪 · 15薪</div></div><div class="job-match"><div class="match-dot"></div>匹配度 82%</div><div class="job-date">3天前</div><button class="apply-btn" onclick="applyJob(this)">立即投递</button></div>
+        </div>
+        <div class="job-card reveal">
+          <div class="job-meta"><div class="job-logo" style="background:#e3f2fd">🚀</div><div class="job-info"><div class="job-title">产品经理（增长方向）</div><div class="job-company">美团 · 北京</div><div class="job-tags"><span class="job-tag">增长黑客</span><span class="job-tag">A/B测试</span></div><div class="job-loc">📍 北京 · 本科及以上 · 2-5年</div></div></div>
+          <div class="job-right"><div><div class="job-salary">25-40K</div><div class="job-salary-unit">月薪 · 15薪</div></div><div class="job-match"><div class="match-dot"></div>匹配度 79%</div><div class="job-date">5天前</div><button class="apply-btn" onclick="applyJob(this)">立即投递</button></div>
+        </div>
+      </div>
+      <button class="load-more" onclick="this.textContent='暂无更多';this.disabled=true;this.style.opacity='.4'">加载更多职位（还有 338 个）</button>
+    </main>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><span class="logo" onclick="navigate('home')" style="cursor:none">职引 · CAREER</span><p style="margin-top:.8rem">帮助每一位求职者找到理想工作。</p></div>
+      <div class="footer-col"><h4>功能</h4><ul><li><a onclick="navigate('resume')">简历诊断</a></li><li><a onclick="navigate('jobs')">职位搜索</a></li><li><a onclick="navigate('booking')">预约顾问</a></li></ul></div>
+      <div class="footer-col"><h4>关于</h4><ul><li><a href="#">团队介绍</a></li><li><a href="#">成功案例</a></li></ul></div>
+      <div class="footer-col"><h4>支持</h4><ul><li><a onclick="navigate('login')">登录注册</a></li><li><a href="#">隐私政策</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 职引 CareerPath</span><span>让每一次求职都有底气</span></div>
+  </footer>
+</div>
+
+<!-- ================================================================
+     PAGE: BOOKING
+     ================================================================ -->
+<div class="page" id="page-booking">
+  <div class="booking-hero">
+    <div>
+      <div class="section-label">1对1顾问预约</div>
+      <h1>与行业专家<br>面对面交流</h1>
+      <p>顾问来自BAT、麦肯锡、华为等顶尖企业，拥有丰富招聘与职业规划经验，助你直击求职核心。</p>
+      <div class="guarantee"><div class="guarantee-icon">🛡️</div><p><strong>效果保障：</strong>首次咨询不满意全额退款，拿到满意offer才是终点。</p></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div style="background:white;padding:1.4rem;display:flex;gap:1rem;align-items:center">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--accent);line-height:1">4.9</div>
+        <div><div style="color:var(--gold);font-size:1.1rem">★★★★★</div><div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:1px">基于 2,840+ 条评价</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div style="background:white;padding:1.1rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--accent)">48</div><div style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase">位顾问在线</div></div>
+        <div style="background:white;padding:1.1rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--accent)">24H</div><div style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase">最快预约</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="booking-main">
+    <div class="reveal">
+      <h2 style="font-size:1.2rem;font-weight:600;margin-bottom:1.3rem">选择你的顾问</h2>
+      <div class="adv-card" onclick="selectAdv(this,'王志远')">
+        <div class="adv-avatar" style="background:var(--accent)">王</div>
+        <div><div class="adv-name">王志远</div><div class="adv-title">资深职业顾问</div><div class="adv-tags"><span class="adv-tag">产品管理</span><span class="adv-tag">互联网</span><span class="adv-tag">职业转型</span></div><div class="adv-stats"><span class="adv-stat"><strong>328</strong>次咨询</span><span class="adv-stat"><strong>96%</strong>好评</span><span class="stars">★★★★★</span></div><div class="adv-bio">前腾讯产品总监，10年互联网经验</div></div>
+      </div>
+      <div class="adv-card" onclick="selectAdv(this,'李思琦')">
+        <div class="adv-avatar" style="background:#2d7a4f">李</div>
+        <div><div class="adv-name">李思琦</div><div class="adv-title">高级猎头顾问</div><div class="adv-tags"><span class="adv-tag">金融/咨询</span><span class="adv-tag">外资企业</span><span class="adv-tag">薪资谈判</span></div><div class="adv-stats"><span class="adv-stat"><strong>245</strong>次咨询</span><span class="adv-stat"><strong>98%</strong>好评</span><span class="stars">★★★★★</span></div><div class="adv-bio">8年麦肯锡咨询经历，专注高端人才</div></div>
+      </div>
+      <div class="adv-card" onclick="selectAdv(this,'张磊')">
+        <div class="adv-avatar" style="background:var(--gold)">张</div>
+        <div><div class="adv-name">张磊</div><div class="adv-title">技术方向顾问</div><div class="adv-tags"><span class="adv-tag">技术岗位</span><span class="adv-tag">应届生</span><span class="adv-tag">面试指导</span></div><div class="adv-stats"><span class="adv-stat"><strong>412</strong>次咨询</span><span class="adv-stat"><strong>95%</strong>好评</span><span class="stars">★★★★★</span></div><div class="adv-bio">前字节跳动技术总监，专攻技术岗</div></div>
+      </div>
+      <div class="adv-card" onclick="selectAdv(this,'陈雨欣')">
+        <div class="adv-avatar" style="background:#7b2d8b">陈</div>
+        <div><div class="adv-name">陈雨欣</div><div class="adv-title">职业规划专家</div><div class="adv-tags"><span class="adv-tag">职业规划</span><span class="adv-tag">留学生</span><span class="adv-tag">跨行转型</span></div><div class="adv-stats"><span class="adv-stat"><strong>189</strong>次咨询</span><span class="adv-stat"><strong>97%</strong>好评</span><span class="stars">★★★★★</span></div><div class="adv-bio">哈佛MBA，专注海归与职业转型辅导</div></div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <h2 style="font-size:1.2rem;font-weight:600;margin-bottom:1.3rem">预约时间 & 服务</h2>
+      <div class="step-indicator">
+        <div class="step-ind active" id="si1">① 选择时间</div>
+        <div class="step-ind" id="si2">② 选择服务</div>
+        <div class="step-ind" id="si3">③ 确认预约</div>
+      </div>
+      <!-- Step 1 -->
+      <div class="form-card" id="bs1">
+        <div class="cal-header"><button class="cal-nav" onclick="prevMo()">‹</button><div class="cal-month" id="calMo">2025年3月</div><button class="cal-nav" onclick="nextMo()">›</button></div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div style="margin-top:1.2rem"><div style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.65rem">可预约时段</div>
+          <div class="time-slots">
+            <div class="slot-card booked">09:00 (满)</div>
+            <div class="slot-card" onclick="selectSlot(this)">10:00</div>
+            <div class="slot-card" onclick="selectSlot(this)">11:00</div>
+            <div class="slot-card booked">14:00 (满)</div>
+            <div class="slot-card" onclick="selectSlot(this)">15:00</div>
+            <div class="slot-card" onclick="selectSlot(this)">16:00</div>
+            <div class="slot-card" onclick="selectSlot(this)">19:00</div>
+            <div class="slot-card" onclick="selectSlot(this)">20:00</div>
+            <div class="slot-card booked">21:00 (满)</div>
+          </div>
+        </div>
+        <div class="step-btns"><button class="btn btn-primary" onclick="bStep(2)">下一步 →</button></div>
+      </div>
+      <!-- Step 2 -->
+      <div class="form-card" id="bs2" style="display:none">
+        <div style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem">选择咨询服务</div>
+        <div class="service-options">
+          <label class="service-opt"><input type="radio" name="svc" value="free" checked><div class="service-opt-info"><h4>免费职业诊断 <span class="free-tag">FREE</span></h4><p>30分钟，了解求职现状，制定初步方向</p></div><div class="service-price" style="color:var(--success)">¥0</div></label>
+          <label class="service-opt"><input type="radio" name="svc" value="resume"><div class="service-opt-info"><h4>简历深度优化</h4><p>60分钟，逐行审阅，提供修改稿和写作指导</p></div><div class="service-price">¥599</div></label>
+          <label class="service-opt"><input type="radio" name="svc" value="mock"><div class="service-opt-info"><h4>面试模拟训练</h4><p>90分钟，全真模拟面试，录像回放+详细点评</p></div><div class="service-price">¥799</div></label>
+          <label class="service-opt"><input type="radio" name="svc" value="full"><div class="service-opt-info"><h4>全程求职陪跑</h4><p>简历+面试+薪资谈判，直到拿offer</p></div><div class="service-price">¥2999</div></label>
+        </div>
+        <div class="field"><label>求职目标简介</label><textarea placeholder="例如：3年运营经验，希望转产品经理，目标字节/腾讯..."></textarea></div>
+        <div class="step-btns"><button class="btn btn-outline" onclick="bStep(1)">← 上一步</button><button class="btn btn-primary" onclick="bStep(3)">下一步 →</button></div>
+      </div>
+      <!-- Step 3 -->
+      <div class="form-card" id="bs3" style="display:none">
+        <div style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem">确认预约详情</div>
+        <div class="confirm-panel">
+          <div class="confirm-row"><span>顾问</span><span id="cf-adv">王志远</span></div>
+          <div class="confirm-row"><span>时间</span><span id="cf-time">3月15日 10:00</span></div>
+          <div class="confirm-row"><span>服务</span><span id="cf-svc">免费职业诊断（30分钟）</span></div>
+          <div class="confirm-row"><span>方式</span><span>视频通话（微信/Zoom）</span></div>
+          <div class="confirm-row"><span>费用</span><span id="cf-price" style="color:var(--accent)">¥0（免费）</span></div>
+        </div>
+        <div class="field"><label>你的姓名</label><input type="text" placeholder="请输入真实姓名"></div>
+        <div class="field"><label>联系方式</label><input type="text" placeholder="手机号 / 微信号"></div>
+        <div class="field"><label>邮箱</label><input type="email" placeholder="用于接收预约确认邮件"></div>
+        <div class="step-btns"><button class="btn btn-outline" onclick="bStep(2)">← 上一步</button><button class="btn btn-primary" onclick="confirmBooking()">确认预约 ✓</button></div>
+      </div>
+      <!-- Booking Success -->
+      <div class="booking-success" id="bookingSuccess">
+        <div style="font-size:3.5rem;margin-bottom:1rem">🎉</div>
+        <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:.5rem">预约成功！</h3>
+        <p style="font-size:.85rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">我们已向你的邮箱发送确认邮件。<br>顾问将在24小时内与你联系确认视频链接。</p>
+        <button class="btn btn-primary" onclick="navigate('jobs')" style="width:100%;margin-bottom:.7rem">浏览匹配职位</button>
+        <button class="btn btn-outline" onclick="navigate('resume')" style="width:100%">顺便诊断一下简历</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><span class="logo" onclick="navigate('home')" style="cursor:none">职引 · CAREER</span><p style="margin-top:.8rem">帮助每一位求职者找到理想工作。</p></div>
+      <div class="footer-col"><h4>功能</h4><ul><li><a onclick="navigate('resume')">简历诊断</a></li><li><a onclick="navigate('jobs')">职位搜索</a></li><li><a onclick="navigate('booking')">预约顾问</a></li></ul></div>
+      <div class="footer-col"><h4>关于</h4><ul><li><a href="#">团队介绍</a></li><li><a href="#">成功案例</a></li></ul></div>
+      <div class="footer-col"><h4>支持</h4><ul><li><a onclick="navigate('login')">登录注册</a></li><li><a href="#">隐私政策</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 职引 CareerPath</span><span>让每一次求职都有底气</span></div>
+  </footer>
+</div>
+
+<!-- ================================================================
+     PAGE: LOGIN
+     ================================================================ -->
+<div class="page" id="page-login">
+  <div class="login-page">
+    <div class="login-left">
+      <div class="section-label" style="color:rgba(255,255,255,.6)">加入职引</div>
+      <h2>一个账号，<br>全程求职支持</h2>
+      <p>注册后即可免费使用简历诊断、职位智能匹配，预约顾问咨询，一站式管理整个求职旅程。</p>
+      <div class="left-pts">
+        <div class="left-pt"><div class="lp-chk">✓</div><span>免费简历AI诊断（每月3次）</span></div>
+        <div class="left-pt"><div class="lp-chk">✓</div><span>智能职位匹配推送</span></div>
+        <div class="left-pt"><div class="lp-chk">✓</div><span>首次顾问咨询免费</span></div>
+        <div class="left-pt"><div class="lp-chk">✓</div><span>面试题库无限练习</span></div>
+        <div class="left-pt"><div class="lp-chk">✓</div><span>求职进度跟踪管理</span></div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="form-container">
+        <div class="tab-row">
+          <div class="tab active" onclick="showAuthTab('login',this)">登录</div>
+          <div class="tab" onclick="showAuthTab('register',this)">注册</div>
+        </div>
+        <!-- LOGIN -->
+        <div id="loginForm">
+          <div class="form-title">欢迎回来</div>
+          <div class="form-sub">登录以继续你的求职之旅</div>
+          <div class="field"><label>手机号 / 邮箱</label><input type="text" placeholder="请输入手机号或邮箱" id="loginEmail"></div>
+          <div class="field pw-field"><label>密码</label><input type="password" placeholder="请输入密码" id="loginPw"><button class="pw-toggle" onclick="togglePw('loginPw',this)">👁</button></div>
+          <a href="#" class="forgot-link" onclick="alert('重置密码邮件已发送至你的邮箱，请查收。');return false">忘记密码？</a>
+          <button class="submit-btn" onclick="doLogin()">登录账号</button>
+          <div class="divider"><span>或使用以下方式登录</span></div>
+          <div class="social-btns"><button class="social-btn">💬 微信登录</button><button class="social-btn">🔵 QQ登录</button></div>
+          <div class="switch-text">还没有账号？<a onclick="showAuthTab('register',document.querySelectorAll('.tab')[1])">立即注册</a>，首次咨询免费</div>
+        </div>
+        <!-- REGISTER -->
+        <div id="registerForm" style="display:none">
+          <div class="form-title">创建账号</div>
+          <div class="form-sub">加入2.4万+求职者，免费开始</div>
+          <div class="field-row">
+            <div class="field"><label>姓名</label><input type="text" placeholder="真实姓名"></div>
+            <div class="field"><label>求职方向</label><input type="text" placeholder="如：产品经理"></div>
+          </div>
+          <div class="field"><label>手机号</label><div class="code-field"><input type="tel" placeholder="请输入手机号" id="regPhone"><button class="code-btn" id="codeBtn" onclick="sendCode()">发送验证码</button></div></div>
+          <div class="field"><label>验证码</label><input type="text" placeholder="请输入6位验证码" maxlength="6"></div>
+          <div class="field pw-field"><label>设置密码</label><input type="password" placeholder="至少8位，含字母和数字" id="regPw" oninput="checkStrength(this.value)"><button class="pw-toggle" onclick="togglePw('regPw',this)">👁</button><div class="strength-bar"><div class="strength-fill" id="sFill"></div></div><div class="strength-label" id="sLabel">密码强度</div></div>
+          <div class="check-row"><input type="checkbox" id="agree" checked><label for="agree">我已阅读并同意<a href="#">《服务条款》</a>和<a href="#">《隐私政策》</a></label></div>
+          <button class="submit-btn" onclick="doRegister()">免费注册</button>
+          <div class="divider"><span>或快捷注册</span></div>
+          <div class="social-btns"><button class="social-btn">💬 微信注册</button><button class="social-btn">🔵 QQ注册</button></div>
+          <div class="switch-text">已有账号？<a onclick="showAuthTab('login',document.querySelectorAll('.tab')[0])">直接登录</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-ov" id="successOv">
+  <div class="success-big">🎉</div>
+  <h2 id="sucTitle">登录成功！</h2>
+  <p id="sucSub">正在进入你的求职主页...</p>
+  <div class="prog-bar"><div class="prog-fill"></div></div>
+</div>
+
+<script>
+/* ===== NAVIGATION ===== */
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('nav ul a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + page);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo(0, 0);
+  initReveal();
+  if (page === 'booking') renderCal();
+}
+
+/* ===== CURSOR ===== */
+const cur = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top = e.clientY + 'px';
+});
+document.addEventListener('mouseover', e => {
+  if (e.target.closest('a,button,.sv,.adv-card,.job-card,.card,.tcard,.slot-card,.stag')) {
+    cur.classList.add('big');
+  } else {
+    cur.classList.remove('big');
+  }
+});
+
+/* ===== REVEAL ===== */
+function initReveal() {
+  const els = document.querySelectorAll('#page-' + currentPage() + ' .reveal:not(.visible)');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  els.forEach(el => obs.observe(el));
+}
+function currentPage() {
+  return document.querySelector('.page.active').id.replace('page-', '');
+}
+// Initial
+setTimeout(initReveal, 100);
+
+/* ===== TESTIMONIAL TRACK ===== */
+const tt = document.getElementById('ttrack');
+if (tt) {
+  tt.addEventListener('mouseenter', () => tt.style.animationPlayState = 'paused');
+  tt.addEventListener('mouseleave', () => tt.style.animationPlayState = 'running');
+}
+
+/* ===== RESUME ANALYSIS ===== */
+const steps = ['正在解析简历结构...','提取关键词与技能标签...','匹配目标岗位数据库...','计算ATS兼容性得分...','生成改进建议...'];
+function runAnalysis() {
+  const text = document.getElementById('resumeText').value;
+  const file = document.getElementById('fileInput').files[0];
+  if (!text.trim() && !file) { alert('请上传简历文件或粘贴简历内容'); return; }
+  document.getElementById('r-placeholder').style.display = 'none';
+  document.getElementById('resultPanel').classList.remove('show');
+  const lo = document.getElementById('loadingPanel');
+  lo.classList.add('show');
+  let i = 0;
+  const int = setInterval(() => {
+    if (i < steps.length) document.getElementById('loadingText').textContent = steps[i++];
+  }, 600);
+  setTimeout(() => {
+    clearInterval(int);
+    lo.classList.remove('show');
+    document.getElementById('resultPanel').classList.add('show');
+    let s = 0;
+    const sv = document.getElementById('scoreNum');
+    const sc = document.getElementById('scoreCircle');
+    const si = setInterval(() => {
+      s += 2; if (s >= 76) { s = 76; clearInterval(si); }
+      sv.textContent = s; sc.style.setProperty('--pct', s);
+    }, 20);
+  }, 3200);
+}
+// Drag drop
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); dz.querySelector('h3').textContent = '✓ 文件已上传，点击"开始诊断"'; });
+document.getElementById('fileInput').addEventListener('change', e => { if (e.target.files[0]) dz.querySelector('h3').textContent = '✓ ' + e.target.files[0].name; });
+
+/* ===== JOBS ===== */
+function setTag(el, val) {
+  document.querySelectorAll('.stag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('searchInput').value = val;
+}
+function setSortActive(el) {
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+function doSearch() { document.querySelector('.jobs-count strong').textContent = Math.floor(Math.random() * 400 + 50); }
+function applyJob(btn) { btn.textContent = '✓ 已投递'; btn.style.background = '#2d7a4f'; btn.disabled = true; }
+
+/* ===== BOOKING CALENDAR ===== */
+let bMonth = 2, bYear = 2025;
+const moNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+let selAdv = '王志远', selDate = '3月15日', selTime = '10:00';
+
+function renderCal() {
+  document.getElementById('calMo').textContent = bYear + '年' + moNames[bMonth];
+  const grid = document.getElementById('calGrid');
+  if (!grid) return;
+  const days = ['日','一','二','三','四','五','六'];
+  grid.innerHTML = days.map(d => `<div class="cal-day-name">${d}</div>`).join('');
+  const first = new Date(bYear, bMonth, 1).getDay();
+  const total = new Date(bYear, bMonth + 1, 0).getDate();
+  for (let i = 0; i < first; i++) grid.innerHTML += '<div class="cal-day empty"></div>';
+  for (let d = 1; d <= total; d++) {
+    const dis = d < 10 ? 'disabled' : '';
+    const av = d >= 10 && d % 3 !== 0 ? 'available' : '';
+    const sel = d === 15 ? 'selected' : '';
+    grid.innerHTML += `<div class="cal-day ${dis} ${av} ${sel}" onclick="selDay(this,${d})">${d}</div>`;
+  }
+}
+function selDay(el, d) {
+  if (el.classList.contains('disabled') || el.classList.contains('empty')) return;
+  document.querySelectorAll('.cal-day').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selDate = moNames[bMonth] + d + '日';
+  document.getElementById('cf-time').textContent = bYear + '年' + selDate + ' ' + selTime;
+}
+function prevMo() { if (bMonth > 0) { bMonth--; renderCal(); } }
+function nextMo() { if (bMonth < 11) { bMonth++; renderCal(); } }
+function selectSlot(el) {
+  document.querySelectorAll('.slot-card').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  selTime = el.textContent;
+  document.getElementById('cf-time').textContent = bYear + '年' + selDate + ' ' + selTime;
+}
+function selectAdv(el, name) {
+  document.querySelectorAll('.adv-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selAdv = name;
+  document.getElementById('cf-adv').textContent = name;
+}
+function bStep(n) {
+  [1,2,3].forEach(i => { document.getElementById('bs'+i).style.display = 'none'; document.getElementById('si'+i).className = 'step-ind'; });
+  const el = document.getElementById('bs'+n);
+  if (el) el.style.display = 'block';
+  for (let i = 1; i <= 3; i++) {
+    const s = document.getElementById('si'+i);
+    if (i < n) s.classList.add('done'); else if (i === n) s.classList.add('active');
+  }
+  const svcMap = {free:'免费职业诊断（30分钟）',resume:'简历深度优化（60分钟）',mock:'面试模拟训练（90分钟）',full:'全程求职陪跑'};
+  const priceMap = {free:'¥0（免费）',resume:'¥599',mock:'¥799',full:'¥2999'};
+  const svc = document.querySelector('input[name=svc]:checked');
+  if (svc) { document.getElementById('cf-svc').textContent = svcMap[svc.value]; document.getElementById('cf-price').textContent = priceMap[svc.value]; }
+}
+function confirmBooking() {
+  [1,2,3].forEach(i => { document.getElementById('bs'+i).style.display='none'; document.getElementById('si'+i).className='step-ind done'; });
+  document.getElementById('bookingSuccess').classList.add('show');
+}
+
+/* ===== AUTH ===== */
+function showAuthTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+}
+function togglePw(id, btn) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+  btn.textContent = el.type === 'password' ? '👁' : '🙈';
+}
+function checkStrength(pw) {
+  let s = 0;
+  if (pw.length >= 8) s++;
+  if (/[A-Z]/.test(pw)) s++;
+  if (/[0-9]/.test(pw)) s++;
+  if (/[^A-Za-z0-9]/.test(pw)) s++;
+  const fills = ['','#e74c3c','#f39c12','#2ecc71','#27ae60'];
+  const labels = ['密码强度','弱','一般','较强','强'];
+  const f = document.getElementById('sFill');
+  f.style.width = (s * 25) + '%';
+  f.style.background = fills[s];
+  document.getElementById('sLabel').textContent = labels[s];
+}
+function sendCode() {
+  const btn = document.getElementById('codeBtn');
+  const phone = document.getElementById('regPhone').value;
+  if (!phone) { alert('请先输入手机号'); return; }
+  let t = 60;
+  btn.style.background = 'var(--muted)';
+  btn.textContent = t + 's后重发';
+  const int = setInterval(() => {
+    t--;
+    btn.textContent = t + 's后重发';
+    if (t <= 0) { clearInterval(int); btn.style.background = ''; btn.textContent = '重新发送'; }
+  }, 1000);
+}
+function showSuccess(title, sub) {
+  document.getElementById('sucTitle').textContent = title;
+  document.getElementById('sucSub').textContent = sub;
+  document.getElementById('successOv').classList.add('show');
+  setTimeout(() => { document.getElementById('successOv').classList.remove('show'); navigate('home'); }, 2500);
+}
+function doLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const pw = document.getElementById('loginPw').value;
+  if (!email || !pw) { alert('请填写完整信息'); return; }
+  showSuccess('欢迎回来！', '正在进入你的求职主页...');
+}
+function doRegister() {
+  if (!document.getElementById('agree').checked) { alert('请先同意服务条款'); return; }
+  showSuccess('注册成功！', '即将为你解锁所有功能...');
+}
+</script>
 </body>
 </html>
